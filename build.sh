@@ -22,7 +22,7 @@ case $COMMAND in
     rm -rf toolshed nitros9 gcc-4.6.4 gcc-4.6.4-build
     exit 0 ;;
   with-no-env)
-    env -i - PATH="/bin:/usr/bin" sh "$0" doit
+    env -i - PATH="/bin:/usr/bin" bash "$0" doit
     exit $?
     ;;
   *)
