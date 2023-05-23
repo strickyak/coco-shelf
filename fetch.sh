@@ -5,6 +5,7 @@ export SHELF=$(dirname "$0")
 export SHELF_TIMESTAMP=$(date +T%s)
 
 cd $SHELF
+mkdir -p bin
 source ./config.sh
 
 # Tarballs Mirrors.
@@ -54,6 +55,14 @@ test -d toolshed || {
 test -d nitros9 || {
   git clone "$COCO_MIRROR/nitros9" &&
   ( cd nitros9 ; git checkout -b $SHELF_TIMESTAMP $COCO_NITROS9_COMMIT )
+
+  lw=$SHELF/$COCO_LWTOOLS_VERSION
+  wc $lw/extra/gcc6809lw-4.6.4-9.patch /dev/null
+  ( cd gcc-4.6.4 && patch -p1 < ../$lw/extra/gcc6809lw-4.6.4-9.patch )
+  cp $lw/extra/as bin/m6809-unknown-as
+  cp $lw/extra/ld bin/m6809-unknown-ld
+  cp $lw/extra/ar bin/m6809-unknown-ar
+  ln -s /bin/true bin/m6809-unknown-ranlib
 }
 
 test -d frobio || {

@@ -55,11 +55,11 @@ function fail () {
 # Download from http://www.lwtools.ca/
 
 function build_lwtools () {
-  set lwtools*.tar.gz
-  expr match "$#/$*" '^1/lwtools-[0-9.]*.tar.gz$' ||
-    fail "Expected one file matching /lwtools-[0-9.]*.tar.gz$/ but got '$*'"
+  #set lwtools*.tar.gz
+  #expr match "$#/$*" '^1/lwtools-[0-9.]*.tar.gz$' ||
+  #  fail "Expected one file matching /lwtools-[0-9.]*.tar.gz$/ but got '$*'"
 
-  tar xzf "$1"
+  #tar xzf "$1"
   (
     cd lwtools-*/.
     make PREFIX="$SHELF"
@@ -72,11 +72,11 @@ function build_lwtools () {
 # Download exactly one tar file like this:
 
 function build_cmoc () {
-  set cmoc*.tar.gz
-  expr match "$#/$*" '^1/cmoc-[0-9.]*.tar.gz$' ||
-    fail "Expected one file matching /lwtools-[0-9.]*.tar.gz$/ but got '$*'"
+  #set cmoc*.tar.gz
+  #expr match "$#/$*" '^1/cmoc-[0-9.]*.tar.gz$' ||
+  #  fail "Expected one file matching /lwtools-[0-9.]*.tar.gz$/ but got '$*'"
 
-  tar xzf "$1"
+  #tar xzf "$1"
   (
     cd cmoc-*/.
     ./configure --prefix="$SHELF"
@@ -88,7 +88,7 @@ function build_cmoc () {
 
 # Mikey N6IL has a copy of toolshed in their github.
 function build_toolshed () {
-  git clone https://github.com/n6il/toolshed
+  #git clone https://github.com/n6il/toolshed
   (
     cd toolshed
     make -C build/unix DESTDIR="$SHELF" all
@@ -99,7 +99,7 @@ function build_toolshed () {
 
 # Mikey N6IL has a copy of nitros9 in their github.
 function build_nitros9 () {
-  test -d nitros9 || git clone https://github.com/n6il/nitros9
+  #test -d nitros9 || git clone https://github.com/n6il/nitros9
   (
     cd nitros9
     make PORTS="coco1" dsk
@@ -110,18 +110,18 @@ function build_nitros9 () {
 
 function build_gcc6809 () {
   # Hints from https://raw.githubusercontent.com/beretta42/fip/master/docs/build_fuzix.txt
-  test -d gcc-4.6.4 || {
-    rm -rf gcc-4.6.4 gcc-4.6.4-build
-    tar xjf gcc-4.6.4.tar.bz2
-    set x lwtools-*[0-9]
-    wc $2/extra/gcc6809lw-4.6.4-9.patch /dev/null
-    ( cd gcc-4.6.4 && patch -p1 < ../$2/extra/gcc6809lw-4.6.4-9.patch )
-    cp $2/extra/as bin/m6809-unknown-as
-    cp $2/extra/ld bin/m6809-unknown-ld
-    cp $2/extra/ar bin/m6809-unknown-ar
-    ln -s /bin/true bin/m6809-unknown-ranlib
-  }
-  mkdir gcc-4.6.4-build
+  #test -d gcc-4.6.4 || {
+  #  rm -rf gcc-4.6.4 gcc-4.6.4-build
+  #  tar xjf gcc-4.6.4.tar.bz2
+  #  set x lwtools-*[0-9]
+  #  wc $2/extra/gcc6809lw-4.6.4-9.patch /dev/null
+  #  ( cd gcc-4.6.4 && patch -p1 < ../$2/extra/gcc6809lw-4.6.4-9.patch )
+  #  cp $2/extra/as bin/m6809-unknown-as
+  #  cp $2/extra/ld bin/m6809-unknown-ld
+  #  cp $2/extra/ar bin/m6809-unknown-ar
+  #  ln -s /bin/true bin/m6809-unknown-ranlib
+  #}
+  mkdir -p gcc-4.6.4-build
   (
     cd gcc-4.6.4-build
 
