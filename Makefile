@@ -24,6 +24,9 @@ all: done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
 mirror-stuff:
 	make -C mirror
 
+mirror-pull:
+	make -C mirror pull
+
 $(COCO_LWTOOLS_VERSION): mirror-stuff
 	set -x; test -d $@ || tar -xzf mirror/$(COCO_LWTOOLS_TARBALL)
 $(COCO_CMOC_VERSION): mirror-stuff

@@ -8,6 +8,9 @@ licenses, including some code under the GNU General Public License.
 ## Quick Start
 Just type `make`.  Let me know what goes wrong!
 
+It can take 8 minutes or more to build everything,
+and it needs perhaps 1.7 GB of disk.
+
 ## Example: For Ubuntu 22.10 x64 at Digital Ocean:
 
 ```
