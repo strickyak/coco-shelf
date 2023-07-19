@@ -6,29 +6,9 @@ Note that the "MIT License" in thie file `LICENSE` refers to the
 licenses, including some code under the GNU General Public License.
 
 ## Quick Start
-Add tarfiles for the latest distrubution of
-[CMOC](http://sarrazip.com/dev/cmoc.html)
-and 
-[LWTOOLS](http://www.lwtools.ca/)
-like these.  Also the `gcc-4.6.4` distrubution, which is not at all recent.
+Just type `make`.  Let me know what goes wrong!
 
-```
-cmoc-0.1.81.tar.gz
-lwtools-4.21.tar.gz
-
-gcc-4.6.4.tar.bz2
-```
-
-and type `make`.
-
-Q: What extra packages need to be installed a current
-Ubuntu or Debian linux distro?
-
-* golang 1.18 or later
-* buildtools
-* git
-
-For Ubuntu 22.10 x64 at Digital Ocean:
+## Example: For Ubuntu 22.10 x64 at Digital Ocean:
 
 ```
 ---- Install needed linux packages ----
@@ -49,17 +29,6 @@ For Ubuntu 22.10 x64 at Digital Ocean:
 # su - strick
 
 $ git clone https://github.com/strickyak/coco-shelf.git 
-```
-
-Now copy the `*.tar.*` files into the coco-shelf directory.
-From another machine's coco-shelf, I do this (with the
-name or the IP address of my new virtual machine):
-
-`$ scp *.tar.* 134.209.76.3:coco-shelf`
-
-Then run `make` in the coco-shelf:
-
-```
 $ cd coco-shelf/
 $ make
 ```
@@ -67,4 +36,4 @@ $ make
 ## TODO
 
 Look into something like
-https://github.com/earthly/earthly
+https://github.com/earthly/earthly ?
