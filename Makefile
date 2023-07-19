@@ -14,7 +14,7 @@ include conf.mk
 # We fix the PATH to avoid differences due to a personal non-standard PATH.
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
-all: done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
+all: mirror-stuff done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
 
 # If you already have tarballs of lwtools, cmoc, and gcc-4.6.4
 # you can "mkdir mirror" yourself and put the tarballs in it,
@@ -27,24 +27,24 @@ mirror-stuff:
 mirror-pull:
 	make -C mirror pull
 
-$(COCO_LWTOOLS_VERSION): mirror-stuff
+$(COCO_LWTOOLS_VERSION):
 	set -x; test -d $@ || tar -xzf mirror/$(COCO_LWTOOLS_TARBALL)
-$(COCO_CMOC_VERSION): mirror-stuff
+$(COCO_CMOC_VERSION):
 	set -x; test -d $@ || tar -xzf mirror/$(COCO_CMOC_TARBALL)
-$(COCO_GCCRETRO_VERSION): mirror-stuff
-	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL)
-	cd $@ && patch -p1 < ../$(COCO_LWTOOLS_VERSION)/extra/gcc6809lw-4.6.4-9.patch
+$(COCO_GCCRETRO_VERSION):
+	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL) && \
+	      (cd $@ && patch -p1 < ../$(COCO_LWTOOLS_VERSION)/extra/gcc6809lw-4.6.4-9.patch)
 	mkdir -p bin
 	cp $(COCO_LWTOOLS_VERSION)/extra/as bin/m6809-unknown-as
 	cp $(COCO_LWTOOLS_VERSION)/extra/ld bin/m6809-unknown-ld
 	cp $(COCO_LWTOOLS_VERSION)/extra/ar bin/m6809-unknown-ar
 	set -x; test -s bin/m6809-unknown-ranlib || ln -s /bin/true bin/m6809-unknown-ranlib
 	set -x; test -s bin/makeinfo || ln -s /bin/true bin/makeinfo
-toolshed: mirror-stuff
+toolshed:
 	set -x; test -s $@ || cp -a mirror/$@ .
-nitros9: mirror-stuff
+nitros9:
 	set -x; test -s $@ || cp -a mirror/$@ .
-frobio: mirror-stuff
+frobio:
 	set -x; test -s $@ || cp -a mirror/$@ .
 
 done-frobio: frobio
@@ -72,9 +72,9 @@ done-lwtools: $(COCO_LWTOOLS_VERSION)
 	date > done-lwtools
 
 done-cmoc: $(COCO_CMOC_VERSION)
-	set -x; SHELF=`pwd`; (cd $< && PATH="$(PATH)" ./configure --prefix="$$SHELF")
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all) 2>&1 | tee log
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install) 2>&1 | tee log-install
+	set -x; SHELF=`pwd`; (cd $< && PATH="$(PATH)" ./configure --prefix="$$SHELF") 2>&1 | tee $</log-configure
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all) 2>&1 | tee $</log
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install) 2>&1 | tee $</log-install
 	date > done-cmoc
 
 done-gccretro: $(COCO_GCCRETRO_VERSION)
@@ -102,6 +102,6 @@ done-gccretro: $(COCO_GCCRETRO_VERSION)
 	date > done-gccretro
 
 clean-shelf:
-	-rm -f build-* done-*
-	-rm -rf bin share lib libexec usr include .cache
-	-rm -rf cmoc-0.1.82 frobio gcc-4.6.4 lwtools-4.21 m6809-unknown nitros9 toolshed
+	rm -rf build-* done-*
+	rm -rf bin share lib libexec usr include .cache
+	rm -rf cmoc-0.1.82 frobio gcc-4.6.4 lwtools-4.21 m6809-unknown nitros9 toolshed
