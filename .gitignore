@@ -2,10 +2,12 @@ done-*
 RCS
 *,v
 .*.un~
-*.tar.gz
-*.tar.bz2
 
-# No subdirectories are ever added.
-*/
+# any directory except mirror
+[^m][^i]*/
+
+mirror/*tar*
+mirror/*/
+
 # Symbolic link is created by build.sh, not added.
 usr

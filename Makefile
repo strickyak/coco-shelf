@@ -20,26 +20,15 @@ all: done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
 # you can "mkdir mirror" yourself and put the tarballs in it,
 # to avoid using wget over the internet.  If you already have a
 # "mirror" directory somewhere else, you can make a symlink to it.
-mirror:
-	mkdir -p mirror
-mirror/$(COCO_LWTOOLS_TARBALL): mirror
-	set -x; test -s $@ || (cd mirror && wget $(COCO_LWTOOLS_URL))
-mirror/$(COCO_CMOC_TARBALL): mirror
-	set -x; test -s $@ || (cd mirror && wget $(COCO_CMOC_URL))
-mirror/$(COCO_GCCRETRO_TARBALL): mirror
-	set -x; test -s $@ || (cd mirror && wget $(COCO_GCCRETRO_URL))
-mirror/toolshed: mirror
-	cd mirror && git clone $(COCO_TOOLSHED_REPO)
-mirror/nitros9: mirror
-	cd mirror && git clone $(COCO_NITROS9_REPO)
-mirror/frobio: mirror
-	cd mirror && git clone $(COCO_FROBIO_REPO)
 
-$(COCO_LWTOOLS_VERSION): mirror/$(COCO_LWTOOLS_TARBALL)
+mirror-stuff:
+	make -C mirror
+
+$(COCO_LWTOOLS_VERSION): mirror-stuff
 	set -x; test -d $@ || tar -xzf mirror/$(COCO_LWTOOLS_TARBALL)
-$(COCO_CMOC_VERSION): mirror/$(COCO_CMOC_TARBALL)
+$(COCO_CMOC_VERSION): mirror-stuff
 	set -x; test -d $@ || tar -xzf mirror/$(COCO_CMOC_TARBALL)
-$(COCO_GCCRETRO_VERSION): mirror/$(COCO_GCCRETRO_TARBALL) $(COCO_LWTOOLS_VERSION) 
+$(COCO_GCCRETRO_VERSION): mirror-stuff
 	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL)
 	cd $@ && patch -p1 < ../$(COCO_LWTOOLS_VERSION)/extra/gcc6809lw-4.6.4-9.patch
 	mkdir -p bin
@@ -48,12 +37,12 @@ $(COCO_GCCRETRO_VERSION): mirror/$(COCO_GCCRETRO_TARBALL) $(COCO_LWTOOLS_VERSION
 	cp $(COCO_LWTOOLS_VERSION)/extra/ar bin/m6809-unknown-ar
 	set -x; test -s bin/m6809-unknown-ranlib || ln -s /bin/true bin/m6809-unknown-ranlib
 	set -x; test -s bin/makeinfo || ln -s /bin/true bin/makeinfo
-toolshed:
-	cp -a mirror/$@ .
-nitros9:
-	cp -a mirror/$@ .
-frobio:
-	cp -a mirror/$@ .
+toolshed: mirror-stuff
+	set -x; test -s $@ || cp -a mirror/$@ .
+nitros9: mirror-stuff
+	set -x; test -s $@ || cp -a mirror/$@ .
+frobio: mirror-stuff
+	set -x; test -s $@ || cp -a mirror/$@ .
 
 done-frobio: frobio
 	test -s bin/gcc6809 || ln -s m6809-unknown-gcc-4.6.4 bin/gcc6809
@@ -110,8 +99,6 @@ done-gccretro: $(COCO_GCCRETRO_VERSION)
 	date > done-gccretro
 
 clean-shelf:
-	-rm -rf bin shared lib libexec usr
-	-rm -rf cmoc-0.1.82
-	-rm -f done-*
-	-rm -rf lwtools-4.21
-# END.
+	-rm -f build-* done-*
+	-rm -rf bin share lib libexec usr include .cache
+	-rm -rf cmoc-0.1.82 frobio gcc-4.6.4 lwtools-4.21 m6809-unknown nitros9 toolshed
