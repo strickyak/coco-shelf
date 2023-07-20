@@ -3,6 +3,7 @@
 # You can edit version numbers to upgrade packages.
 
 S:=$(shell pwd)
+export SHELL:="/bin/bash"  # Putting this 1st seems to make PATH work.
 export HOME:="$S"
 export PATH:="$S/bin:/usr/bin:/bin"
 
@@ -10,9 +11,6 @@ export COCO_LWTOOLS_VERSION:=lwtools-4.21
 export COCO_CMOC_VERSION:=cmoc-0.1.83
 export COCO_GCCRETRO_VERSION:=gcc-4.6.4
 
-#export COCO_LWTOOLS_TARBALL=lwtools-4.21.tar.gz
-#export COCO_CMOC_TARBALL=cmoc-0.1.82.tar.gz
-#export COCO_GCCRETRO_TARBALL=gcc-4.6.4.tar.bz2
 export COCO_LWTOOLS_TARBALL=$(COCO_LWTOOLS_VERSION).tar.gz
 export COCO_CMOC_TARBALL=$(COCO_CMOC_VERSION).tar.gz
 export COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
