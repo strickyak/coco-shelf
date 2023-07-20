@@ -51,30 +51,30 @@ done-frobio: frobio
 	test -s bin/gcc6809 || ln -s m6809-unknown-gcc-4.6.4 bin/gcc6809
 	mkdir -p build-frobio
 	SHELF=`pwd`; cd build-frobio && HOME=/dev/null PATH="$$SHELF/bin:/usr/bin:/bin" ../frobio/frob3/configure --nitros9="$$SHELF/nitros9"
-	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE) 2>&1 | tee log
+	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE)
 	date > done-frobio
 
 done-toolshed: toolshed
 	test -d usr || ln -s . usr
-	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" all 2>&1 | tee log
-	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" install 2>&1 | tee log-install
+	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" all
+	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" install
 	date > done-toolshed
 
 done-nitros9: nitros9
-	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco1 dsk 2>&1 | tee log-coco1
-	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3 dsk 2>&1 | tee log-coco3
-	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk 2>&1 | tee log-coco3_6809
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco1 dsk
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3 dsk
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk
 	date > done-nitros9
 
 done-lwtools: $(COCO_LWTOOLS_VERSION)
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all) 2>&1 | tee log
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install) 2>&1 | tee log-install
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all)
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install)
 	date > done-lwtools
 
 done-cmoc: $(COCO_CMOC_VERSION)
-	set -x; SHELF=`pwd`; (cd $< && PATH="$(PATH)" ./configure --prefix="$$SHELF") 2>&1 | tee $</log-configure
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all) 2>&1 | tee $</log
-	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install) 2>&1 | tee $</log-install
+	set -x; SHELF=`pwd`; (cd $< && PATH="$(PATH)" ./configure --prefix="$$SHELF")
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all)
+	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install)
 	date > done-cmoc
 
 done-gccretro: $(COCO_GCCRETRO_VERSION)
@@ -94,11 +94,11 @@ done-gccretro: $(COCO_GCCRETRO_VERSION)
       --with-as="$$SHELF/bin/m6809-unknown-as" \
       --with-ld="$$SHELF/bin/m6809-unknown-ld" \
       --with-ar="$$SHELF/bin/m6809-unknown-ar"
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-gcc 2>&1 | tee log-allgcc
+	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-gcc
 	cd build-$< && echo "// This is a kludge, not the real limits.h" > gcc/include-fixed/limits.h
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-target-libgcc 2>&1 | tee log-all-target-libgcc
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-gcc 2>&1 | tee log-install-gcc
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-target-libgcc 2>&1 | tee log-install-target-libgcc
+	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-target-libgcc
+	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-gcc
+	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-target-libgcc
 	date > done-gccretro
 
 clean-shelf:
