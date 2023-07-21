@@ -14,26 +14,22 @@ and it needs perhaps 1.7 GB of disk.
 ## Example: For Ubuntu 22.10 x64 at Digital Ocean:
 
 ```
----- Install needed linux packages ----
-# apt update
-# apt upgrade
-# apt install gcc gcc-doc make flex bison gdb build-essential
-# apt install git git-doc golang golang-doc
-# apt install libgmp-dev libmpfr-dev libmpc-dev 
+# ---- Install needed linux packages ----
+export DEBIAN_FRONTEND=noninteractive
+apt -y update < /dev/null
+apt -y upgrade < /dev/null
+apt -y install gcc gcc-doc make flex bison gdb build-essential
+apt -y install git git-doc golang golang-doc
+apt -y install libgmp-dev libmpfr-dev libmpc-dev 
 
----- Create a user account for builds ----
-# useradd -m strick
-# mkdir ~strick/.ssh
-# cp -av .ssh/authorized_keys ~strick/.ssh/
-'.ssh/authorized_keys' -> '/home/strick/.ssh/authorized_keys'
-# chown -R strick ~strick/.ssh/
+# ---- Create a user account 'coco' for builds ----
+useradd --shell /bin/bash -m coco
+su - coco
 
----- Use the user account for builds ----
-# su - strick
-
-$ git clone https://github.com/strickyak/coco-shelf.git 
-$ cd coco-shelf/
-$ make
+# ---- Do the build ----
+git clone https://github.com/strickyak/coco-shelf.git 
+cd coco-shelf/
+make
 ```
 
 ## TODO
