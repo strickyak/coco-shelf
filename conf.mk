@@ -15,6 +15,10 @@ export COCO_LWTOOLS_TARBALL=$(COCO_LWTOOLS_VERSION).tar.gz
 export COCO_CMOC_TARBALL=$(COCO_CMOC_VERSION).tar.gz
 export COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
 
+# If you want to clone these from github with your own git ssh key,
+# change "https://github.com/" to
+#        "git@github.com:"
+# on each of these 3 REPO lines, and add ".git" to the end of each.
 COCO_TOOLSHED_REPO:=https://github.com/n6il/toolshed
 COCO_NITROS9_REPO:=https://github.com/n6il/nitros9
 COCO_FROBIO_REPO:=https://github.com/strickyak/frobio
