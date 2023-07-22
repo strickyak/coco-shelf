@@ -4,10 +4,26 @@ RCS
 .*.un~
 
 # any directory except mirror
-[^m][^i]*/
+.cache/
+bin/
+nitros9/
+bin/
+build-frobio/
+build-gcc-4.6.4/
+cmoc-0.*/
+frobio/
+gcc-4.6.*/
+include/
+lib/
+libexec/
+lwtools-4.*/
+m6809-unknown/
+nitros9/
+share/
+toolshed/
 
 mirror/*tar*
 mirror/*/
 
-# Symbolic link is created by build.sh, not added.
+# usr is a symbolic link to .
 usr
