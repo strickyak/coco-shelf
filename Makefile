@@ -104,4 +104,4 @@ done-gccretro: $(COCO_GCCRETRO_VERSION)
 clean-shelf:
 	rm -rf build-* done-*
 	rm -rf bin share lib libexec usr include .cache
-	rm -rf cmoc-0.1.82 frobio gcc-4.6.4 lwtools-4.21 m6809-unknown nitros9 toolshed
+	rm -rf cmoc-*/ frobio gcc-4.6.*/ lwtools-*/ m6809-unknown nitros9 toolshed
