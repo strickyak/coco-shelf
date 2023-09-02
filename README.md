@@ -98,5 +98,5 @@ you can chdir into the mirror directory and type `make pull`.
 That will do a `git pull` in each repo.
 
 If you want to use a new version of one of the tarballed
-potions, change the version number in `conf.mk` and type
+portions, change the version number in `conf.mk` and type
 `make`.  It should fetch it.
