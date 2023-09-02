@@ -26,3 +26,8 @@ COCO_FROBIO_REPO:=https://github.com/strickyak/frobio
 COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
 COCO_CMOC_URL:="http://perso.b2b2c.ca/~sarrazip/dev/$(COCO_CMOC_TARBALL)"
 COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
+
+EOU_H6309_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip
+EOU_M6809_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6809_ONLY)_12-02-2022.zip
+EOU_H6309_ZIP:=EOU_Version?1_0_0_?6309_ONLY?_12-02-2022.zip
+EOU_M6809_ZIP:=EOU_Version?1_0_0_?6809_ONLY?_12-02-2022.zip
