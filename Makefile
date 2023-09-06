@@ -16,6 +16,9 @@ RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 all: mirror-stuff done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
 
+run-lemma: all
+	make -C build-frobio run-lemma
+
 # If you already have tarballs of lwtools, cmoc, and gcc-4.6.4
 # you can "mkdir mirror" yourself and put the tarballs in it,
 # to avoid using wget over the internet.  If you already have a

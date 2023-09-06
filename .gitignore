@@ -22,7 +22,8 @@ nitros9/
 share/
 toolshed/
 
-mirror/*tar*
+mirror/*.tar*
+mirror/*.zip
 mirror/*/
 
 # usr is a symbolic link to .
