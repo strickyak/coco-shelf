@@ -23,7 +23,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt -y update < /dev/null
 apt -y upgrade < /dev/null
 apt -y install gcc gcc-doc make flex bison gdb build-essential
-apt -y install git git-doc golang golang-doc
+apt -y install git git-doc golang golang-doc zip
 apt -y install libgmp-dev libmpfr-dev libmpc-dev 
 
 # ---- Create a user account 'coco' for builds ----
