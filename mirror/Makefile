@@ -20,11 +20,11 @@ include ../conf.mk
 all: $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_TARBALL) toolshed nitros9 frobio eou-all
 
 $(COCO_LWTOOLS_TARBALL):
-	set -x; test -s $@ || wget $(COCO_LWTOOLS_URL)
+	set -x; test -s $@ || curl -O $(COCO_LWTOOLS_URL)
 $(COCO_CMOC_TARBALL):
-	set -x; test -s $@ || wget $(COCO_CMOC_URL)
+	set -x; test -s $@ || curl -O $(COCO_CMOC_URL)
 $(COCO_GCCRETRO_TARBALL):
-	set -x; test -s $@ || wget $(COCO_GCCRETRO_URL)
+	set -x; test -s $@ || curl -O $(COCO_GCCRETRO_URL)
 toolshed:
 	set -x; test -s $@ || git clone $(COCO_TOOLSHED_REPO)
 nitros9:
@@ -35,9 +35,9 @@ frobio:
 eou-all: eou-h6309 eou-m6809
 
 EOU-1.0.0-h6309.zip:
-	set -x; test -s $@ || { wget "$(EOU_H6309_URL)" && mv -v $(EOU_H6309_ZIP) $@ ;}
+	set -x; test -s $@ || { curl -O "$(EOU_H6309_URL)" && mv -v $(EOU_H6309_ZIP) $@ ;}
 EOU-1.0.0-m6809.zip:
-	set -x; test -s $@ || { wget "$(EOU_M6809_URL)" && mv -v $(EOU_M6809_ZIP) $@ ;}
+	set -x; test -s $@ || { curl -O "$(EOU_M6809_URL)" && mv -v $(EOU_M6809_ZIP) $@ ;}
 
 eou-h6309: EOU-1.0.0-h6309.zip
 	rm -rf $@
