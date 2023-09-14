@@ -2,7 +2,7 @@
 A shelf for more-nearly-repeatable coco builds.
 
 Note that the "MIT License" in the file `LICENSE` refers to the
-`coco-shelf` repository.  Other packages expaneded here have different
+`coco-shelf` repository.  Other packages expanded here have different
 licenses, including some code under the GNU General Public License.
 
 ## Quick Start
