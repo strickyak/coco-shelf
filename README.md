@@ -1,8 +1,8 @@
 # coco-shelf
 A shelf for more-nearly-repeatable coco builds.
 
-Note that the "MIT License" in thie file `LICENSE` refers to the
-`coco-shelf` repository.  Other packages expaneded here have different
+Note that the "MIT License" in the file `LICENSE` refers to the
+`coco-shelf` repository.  Other packages expanded here have different
 licenses, including some code under the GNU General Public License.
 
 ## Quick Start
@@ -24,14 +24,14 @@ apt -y update < /dev/null
 apt -y upgrade < /dev/null
 apt -y install gcc gcc-doc make flex bison gdb build-essential
 apt -y install git git-doc golang golang-doc zip
-apt -y install libgmp-dev libmpfr-dev libmpc-dev 
+apt -y install libgmp-dev libmpfr-dev libmpc-dev
 
 # ---- Create a user account 'coco' for builds ----
 useradd --shell /bin/bash -m coco
 su - coco
 
 # ---- Do the build ----
-git clone https://github.com/strickyak/coco-shelf.git 
+git clone https://github.com/strickyak/coco-shelf.git
 cd coco-shelf/
 make
 ```
@@ -71,7 +71,7 @@ to your own github username.
 ## What is the mirror/ directory?
 
 Because you might not be connected to the internet while
-working on your coco (I often am not), everything you
+working on your CoCo (I often am not), everything you
 need from the internet is fetched on your first `make`
 and cached in the `mirror/` directory.  As of this writing,
 that includes 3 tarballs and 3 github repositories.
