@@ -17,7 +17,12 @@
 
 include ../conf.mk
 
-all: $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_TARBALL) toolshed nitros9 frobio eou-all
+all: config.guess $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_TARBALL) toolshed nitros9 frobio eou-all
+
+# The config.guess shipped in the old retro gcc is too old to know
+# about Raspberry Pis.  So we need a newer one to replace it.
+config.guess:
+	wget -O config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 
 $(COCO_LWTOOLS_TARBALL):
 	set -x; test -s $@ || wget $(COCO_LWTOOLS_URL)

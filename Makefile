@@ -15,8 +15,9 @@ include conf.mk
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 all: mirror-stuff done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
+all-without-gccretro: mirror-stuff done-lwtools done-cmoc done-toolshed done-nitros9 done-frobio-without-gccretro
 
-run-lemma: all
+run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
 
 # If you already have tarballs of lwtools, cmoc, and gcc-4.6.4
@@ -38,6 +39,9 @@ $(COCO_GCCRETRO_VERSION):
 	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL) && \
 	      (cd $@ && patch -p1 < ../$(COCO_LWTOOLS_VERSION)/extra/gcc6809lw-4.6.4-9.patch)
 	mkdir -p bin
+	cp -f -v mirror/config.guess "$@/config.guess"
+	cp -f -v mirror/config.guess "$@/libjava/libltdl/config.guess"
+	cp -f -v mirror/config.guess "$@/libjava/classpath/config.guess"
 	cp $(COCO_LWTOOLS_VERSION)/extra/as bin/m6809-unknown-as
 	cp $(COCO_LWTOOLS_VERSION)/extra/ld bin/m6809-unknown-ld
 	cp $(COCO_LWTOOLS_VERSION)/extra/ar bin/m6809-unknown-ar
@@ -55,6 +59,12 @@ done-frobio: frobio
 	mkdir -p build-frobio
 	SHELF=`pwd`; cd build-frobio && HOME=/dev/null PATH="$$SHELF/bin:/usr/bin:/bin" ../frobio/frob3/configure --nitros9="$$SHELF/nitros9"
 	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE)
+	date > done-frobio
+
+done-frobio-without-gccretro: frobio
+	mkdir -p build-frobio
+	SHELF=`pwd`; cd build-frobio && HOME=/dev/null PATH="$$SHELF/bin:/usr/bin:/bin" ../frobio/frob3/configure --nitros9="$$SHELF/nitros9"
+	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE) all-without-gccretro
 	date > done-frobio
 
 done-toolshed: toolshed
