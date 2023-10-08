@@ -45,6 +45,33 @@ date > done-frobio
 Above that it lists the products of the frobio build,
 which are in the `build-frobio` directory.
 
+## For Raspberry Pi
+
+If you install the packages listed above for Ubuntu,
+everything builds and works on a Raspberry Pi using
+this 64 Bit Lite edition
+`2023-05-03-raspios-bullseye-arm64-lite.img.xz`
+except don't install the default version of golang.
+Theirs is version 1.15 and we need at least 1.18.
+
+Download the latest "arm64" version from https://go.dev/dl/
+and untar it in your home.  Notice there will be a
+directory go/bin with a binary "go" in it.
+
+Run "make" in the coco-shelf until it crashes for no
+go command.  Then create a shell script in coco-shelf/bin
+named "go" that runs the one under your home, something
+like this:
+
+```
+cd $HOME
+tar xzf go1.*.linux-amd64.tar.gz
+cd coco-shelf
+echo ' $HOME/go/bin/go "$@" ' > bin/go
+chmod +x bin/go
+make
+```
+
 ## Using your own github account
 
 If you have a github account, you can clone the github
