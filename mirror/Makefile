@@ -22,7 +22,7 @@ all: config.guess $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_T
 # The config.guess shipped in the old retro gcc is too old to know
 # about Raspberry Pis.  So we need a newer one to replace it.
 config.guess:
-	wget -O config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+	curl 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' > config.guess
 
 $(COCO_LWTOOLS_TARBALL):
 	set -x; test -s $@ || curl -O $(COCO_LWTOOLS_URL)

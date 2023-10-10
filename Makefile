@@ -16,6 +16,7 @@ RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 all: mirror-stuff done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
 all-without-gccretro: mirror-stuff done-lwtools done-cmoc done-toolshed done-nitros9 done-frobio-without-gccretro
+all-without-gccretro-frobio: mirror-stuff done-lwtools done-cmoc done-toolshed done-nitros9
 
 run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
