@@ -14,9 +14,13 @@ include conf.mk
 # We fix the PATH to avoid differences due to a personal non-standard PATH.
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
-all: mirror-stuff done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
-all-without-gccretro: mirror-stuff done-lwtools done-cmoc done-toolshed done-nitros9 done-frobio-without-gccretro
-all-without-gccretro-frobio: mirror-stuff done-lwtools done-cmoc done-toolshed done-nitros9
+all: mirror-stuff done-eou done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
+all-without-gccretro: mirror-stuff done-eou done-lwtools done-cmoc done-toolshed done-nitros9 done-frobio-without-gccretro
+all-without-gccretro-frobio: mirror-stuff done-eou done-lwtools done-cmoc done-toolshed done-nitros9
+
+# all-anon is an alternataive to "all" that does not use your git ssh key.
+all-anon:
+	make all REPO_PREFIX="https://github.com/" REPO_SUFFIX=""
 
 run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
@@ -32,20 +36,20 @@ mirror-stuff:
 mirror-pull:
 	make -C mirror pull
 
-$(COCO_LWTOOLS_VERSION):
-	set -x; test -d $@ || tar -xzf mirror/$(COCO_LWTOOLS_TARBALL)
-$(COCO_CMOC_VERSION):
-	set -x; test -d $@ || tar -xzf mirror/$(COCO_CMOC_TARBALL)
-$(COCO_GCCRETRO_VERSION):
-	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL) && \
-	      (cd $@ && patch -p1 < ../$(COCO_LWTOOLS_VERSION)/extra/gcc6809lw-4.6.4-9.patch)
+lwtools:
+	set -x; test -d $@ || tar -xzf mirror/$(COCO_LWTOOLS_TARBALL) && mv -v $(COCO_LWTOOLS_VERSION) $@
+cmoc:
+	set -x; test -d $@ || tar -xzf mirror/$(COCO_CMOC_TARBALL) && mv -v $(COCO_CMOC_VERSION) $@
+gccretro:
+	set -x; test -d $@ || tar -xjf mirror/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) $@ && \
+	      (cd $@ && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch)
 	mkdir -p bin
-	cp -f -v mirror/config.guess "$@/config.guess"
-	cp -f -v mirror/config.guess "$@/libjava/libltdl/config.guess"
-	cp -f -v mirror/config.guess "$@/libjava/classpath/config.guess"
-	cp $(COCO_LWTOOLS_VERSION)/extra/as bin/m6809-unknown-as
-	cp $(COCO_LWTOOLS_VERSION)/extra/ld bin/m6809-unknown-ld
-	cp $(COCO_LWTOOLS_VERSION)/extra/ar bin/m6809-unknown-ar
+	cp -f -v mirror/gcc-config-guess "$@/config.guess"
+	cp -f -v mirror/gcc-config-guess "$@/libjava/libltdl/config.guess"
+	cp -f -v mirror/gcc-config-guess "$@/libjava/classpath/config.guess"
+	cp lwtools/extra/as bin/m6809-unknown-as
+	cp lwtools/extra/ld bin/m6809-unknown-ld
+	cp lwtools/extra/ar bin/m6809-unknown-ar
 	set -x; test -s bin/m6809-unknown-ranlib || ln -s /bin/true bin/m6809-unknown-ranlib
 	set -x; test -s bin/makeinfo || ln -s /bin/true bin/makeinfo
 toolshed:
@@ -56,7 +60,7 @@ frobio:
 	set -x; test -s $@ || cp -a mirror/$@ .
 
 done-frobio: frobio
-	test -s bin/gcc6809 || ln -s m6809-unknown-gcc-4.6.4 bin/gcc6809
+	test -s bin/gcc6809 || ln -s m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	SHELF=`pwd`; cd build-frobio && HOME=/dev/null PATH="$$SHELF/bin:/usr/bin:/bin" ../frobio/frob3/configure --nitros9="$$SHELF/nitros9"
 	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE)
@@ -80,22 +84,22 @@ done-nitros9: nitros9
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk
 	date > done-nitros9
 
-done-lwtools: $(COCO_LWTOOLS_VERSION)
+done-lwtools: lwtools
 	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all)
 	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install)
 	date > done-lwtools
 
-done-cmoc: $(COCO_CMOC_VERSION)
+done-cmoc: cmoc
 	set -x; SHELF=`pwd`; (cd $< && PATH="$(PATH)" ./configure --prefix="$$SHELF")
 	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" all)
 	set -x; SHELF=`pwd`; (cd $< && $(RUN_MAKE) PREFIX="$$SHELF" install)
 	date > done-cmoc
 
-done-gccretro: $(COCO_GCCRETRO_VERSION)
+done-gccretro: gccretro
 	echo PATH -- $$PATH -- PATH
 	which makeinfo
-	mkdir -p build-$(COCO_GCCRETRO_VERSION)
-	SHELF=`pwd`; cd build-$< && PATH="$(PATH)" ../gcc-4.6.4/configure \
+	mkdir -p build-$<
+	SHELF=`pwd`; cd build-$< && PATH="$(PATH)" ../gccretro/configure \
       --prefix="$$SHELF" \
       --enable-languages=c \
       --target=m6809-unknown \
@@ -115,7 +119,19 @@ done-gccretro: $(COCO_GCCRETRO_VERSION)
 	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-target-libgcc
 	date > done-gccretro
 
+done-eou: eou-h6309 eou-m6809
+	date > done-eou
+eou-h6309: mirror/eou-h6309.zip
+	rm -rf $@
+	mkdir -p $@
+	cd $@ && unzip ../$<
+eou-m6809: mirror/eou-m6809.zip
+	rm -rf $@
+	mkdir -p $@
+	cd $@ && unzip ../$<
+
 clean-shelf:
 	rm -rf build-* done-*
 	rm -rf bin share lib libexec usr include .cache
-	rm -rf cmoc-*/ frobio gcc-4.6.*/ lwtools-*/ m6809-unknown nitros9 toolshed
+	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed
+	rm -rf eou-h6309 eou-m6809
