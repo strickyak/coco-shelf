@@ -17,7 +17,7 @@
 
 include ../conf.mk
 
-all: gcc-config-guess $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_TARBALL) toolshed nitros9 frobio eou-all
+all: gcc-config-guess $(COCO_LWTOOLS_TARBALL) $(COCO_CMOC_TARBALL) $(COCO_GCCRETRO_TARBALL) FoenixMgr toolshed nitros9 frobio eou-all
 
 # all-anon is an alternataive to "all" that uses your git ssh key.
 all-anon:
@@ -34,6 +34,8 @@ $(COCO_CMOC_TARBALL):
 	set -x; test -s $@ || curl $(COCO_CMOC_URL) > $@
 $(COCO_GCCRETRO_TARBALL):
 	set -x; test -s $@ || curl $(COCO_GCCRETRO_URL) > $@
+FoenixMgr:
+	set -x; test -s $@ || git clone $(COCO_FOENIXMGR_REPO)
 toolshed:
 	set -x; test -s $@ || git clone $(COCO_TOOLSHED_REPO)
 nitros9:
@@ -49,6 +51,7 @@ eou-m6809.zip:
 	set -x; test -s $@ || curl "$(EOU_M6809_URL)" > $@
 
 pull:
+	cd FoenixMgr && git pull
 	cd toolshed && git pull
 	cd nitros9 && git pull
 	cd frobio && git pull
@@ -58,4 +61,4 @@ clean-mirror:
 	rm -f cmoc-*
 	rm -f gcc-*
 	rm -f lwtools-*
-	rm -rf frobio nitros9 toolshed
+	rm -rf frobio nitros9 toolshed FoenixMgr

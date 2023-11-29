@@ -14,9 +14,9 @@ include conf.mk
 # We fix the PATH to avoid differences due to a personal non-standard PATH.
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
-all: mirror-stuff done-eou done-lwtools done-cmoc done-gccretro done-toolshed done-nitros9 done-frobio
-all-without-gccretro: mirror-stuff done-eou done-lwtools done-cmoc done-toolshed done-nitros9 done-frobio-without-gccretro
-all-without-gccretro-frobio: mirror-stuff done-eou done-lwtools done-cmoc done-toolshed done-nitros9
+all: mirror-stuff done-eou done-lwtools done-cmoc done-gccretro done-FoenixMgr done-toolshed done-nitros9 done-frobio
+all-without-gccretro: mirror-stuff done-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9 done-frobio-without-gccretro
+all-without-gccretro-frobio: mirror-stuff done-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
 
 # all-anon is an alternataive to "all" that does not use your git ssh key.
 all-anon:
@@ -52,6 +52,8 @@ gccretro:
 	cp lwtools/extra/ar bin/m6809-unknown-ar
 	set -x; test -s bin/m6809-unknown-ranlib || ln -s /bin/true bin/m6809-unknown-ranlib
 	set -x; test -s bin/makeinfo || ln -s /bin/true bin/makeinfo
+FoenixMgr:
+	set -x; test -s $@ || cp -a mirror/$@ .
 toolshed:
 	set -x; test -s $@ || cp -a mirror/$@ .
 nitros9:
@@ -72,6 +74,10 @@ done-frobio-without-gccretro: frobio
 	SHELF=`pwd`; cd build-frobio && $(RUN_MAKE) all-without-gccretro
 	date > done-frobio
 
+done-FoenixMgr: FoenixMgr
+	: TODO
+	date > done-FoenixMgr
+
 done-toolshed: toolshed
 	test -d usr || ln -s . usr
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" all
@@ -79,9 +85,11 @@ done-toolshed: toolshed
 	date > done-toolshed
 
 done-nitros9: nitros9
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) -C lib
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco1 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=f256 dsk
 	date > done-nitros9
 
 done-lwtools: lwtools
@@ -133,5 +141,5 @@ eou-m6809: mirror/eou-m6809.zip
 clean-shelf:
 	rm -rf build-* done-*
 	rm -rf bin share lib libexec usr include .cache
-	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed
+	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-h6309 eou-m6809

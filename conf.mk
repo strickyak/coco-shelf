@@ -25,6 +25,7 @@ export COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
 # Or use the "make all-anon" target, which does this for you.
 REPO_PREFIX=git@github.com:
 REPO_SUFFIX=.git
+COCO_FOENIXMGR_REPO:=$(REPO_PREFIX)pweingar/FoenixMgr$(REPO_SUFFIX)
 COCO_TOOLSHED_REPO:=$(REPO_PREFIX)nitros9project/toolshed$(REPO_SUFFIX)
 COCO_NITROS9_REPO:=$(REPO_PREFIX)nitros9project/nitros9$(REPO_SUFFIX)
 COCO_FROBIO_REPO:=$(REPO_PREFIX)strickyak/frobio$(REPO_SUFFIX)
