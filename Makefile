@@ -25,6 +25,9 @@ all-anon:
 run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
 
+f256-flash:
+	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash
+
 # If you already have tarballs of lwtools, cmoc, and gcc-4.6.4
 # you can "mkdir mirror" yourself and put the tarballs in it,
 # to avoid using wget over the internet.  If you already have a
@@ -75,7 +78,7 @@ done-frobio-without-gccretro: frobio
 	date > done-frobio
 
 done-FoenixMgr: FoenixMgr
-	: TODO
+	set -x; for x in FoenixMgr/tools/sh/*; do y=$$(basename $$x); ( sh gen-sh-prelude.sh ; cat $$x ) >bin/$$y; chmod +x bin/$$y; done
 	date > done-FoenixMgr
 
 done-toolshed: toolshed
@@ -90,6 +93,7 @@ done-nitros9: nitros9
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=f256 dsk
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) -C level1/f256/feu
 	date > done-nitros9
 
 done-lwtools: lwtools
