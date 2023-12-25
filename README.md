@@ -30,7 +30,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt -y update < /dev/null
 apt -y upgrade < /dev/null
 apt -y install gcc make flex bison gdb build-essential
-apt -y install git golang zip curl
+apt -y install git golang zip curl python3-serial
 apt -y install libgmp-dev libmpfr-dev libmpc-dev
 
 # ---- Create a user account 'coco' for doing the build ----
