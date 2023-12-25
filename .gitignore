@@ -25,7 +25,7 @@ toolshed/
 mirror/*.tar*
 mirror/*.zip
 mirror/*/
-mirror/config.guess
+mirror/gcc-config-guess
 
 # usr is a symbolic link to .
 usr

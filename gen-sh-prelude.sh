@@ -28,14 +28,14 @@ python () {
   ok=0
   for p in /bin/python3 /usr/bin/python3 /bin/python /usr/bin/python
   do
-    if [[ -x $p ]]
+    if [ -x $p ]
     then
       ok=1
       $p "$@"
       break
     fi
   done
-  if [[ "$ok" != "1" ]]
+  if [ "$ok" != "1" ]
   then
     echo "ERROR:  CANNOT FIND python COMMAND" >&2
     exit 13
