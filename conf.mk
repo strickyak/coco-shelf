@@ -15,16 +15,19 @@ export COCO_LWTOOLS_TARBALL=$(COCO_LWTOOLS_VERSION).tar.gz
 export COCO_CMOC_TARBALL=$(COCO_CMOC_VERSION).tar.gz
 export COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
 
-# If you want to clone these from github with your own git ssh key,
-# change REPO_PREFIX to "git@github.com:" and REPO_SUFFIX to ".git".
-# Or use the "make all-mine" target, which does this for you.
+# You have some options, how to clone repositories from github.
+# Choose one of the next two clauses (comment out the other with #).
+# If you have your own fork of the repos, you can edit the
+# COCO_*_REPO definitions below, to use your own git username.
 
-# If you want to clone these from github anonymously
-# (say, if you don't have a github account and the key in your ssh agent),
-# change REPO_PREFIX to "https://" and REPO_SUFFIX to "".
-# Or use the "make all-anon" target, which does this for you.
-REPO_PREFIX=git@github.com:
-REPO_SUFFIX=.git
+# To fetch anonymously without any ssh key in your ssh-agent:
+REPO_PREFIX=https://github.com/
+REPO_SUFFIX=
+
+# To fetch with your github login, using the key in your ssh-agent:
+#REPO_PREFIX=git@github.com:
+#REPO_SUFFIX=.git
+
 COCO_FOENIXMGR_REPO:=$(REPO_PREFIX)pweingar/FoenixMgr$(REPO_SUFFIX)
 COCO_TOOLSHED_REPO:=$(REPO_PREFIX)nitros9project/toolshed$(REPO_SUFFIX)
 COCO_NITROS9_REPO:=$(REPO_PREFIX)nitros9project/nitros9$(REPO_SUFFIX)
