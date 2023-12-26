@@ -78,6 +78,7 @@ done-frobio-without-gccretro: frobio
 	date > done-frobio
 
 done-FoenixMgr: FoenixMgr
+	echo 'set -x; python3 "$$@"' > bin/python && chmod +x bin/python
 	set -x; for x in FoenixMgr/tools/sh/*; do y=$$(basename $$x); ( sh gen-sh-prelude.sh ; cat $$x ) >bin/$$y; chmod +x bin/$$y; done
 	date > done-FoenixMgr
 
