@@ -7,7 +7,7 @@ export SHELL:=/bin/bash   # Putting this 1st seems to make PATH work.
 export HOME:=$S
 export PATH:=$S/bin:/usr/bin:/bin
 
-export COCO_LWTOOLS_VERSION:=lwtools-4.21
+export COCO_LWTOOLS_VERSION:=lwtools-4.22
 export COCO_CMOC_VERSION:=cmoc-0.1.85
 export COCO_GCCRETRO_VERSION:=gcc-4.6.4
 
