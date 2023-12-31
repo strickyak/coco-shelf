@@ -91,6 +91,7 @@ done-toolshed: toolshed
 done-nitros9: nitros9
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) -C lib
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco1 dsk
+	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco1_6309 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=coco3_6309 dsk
 	cd nitros9 && NITROS9DIR=`pwd` $(RUN_MAKE) PORTS=f256 dsk
