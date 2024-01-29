@@ -84,8 +84,8 @@ done-FoenixMgr: FoenixMgr
 
 done-toolshed: toolshed
 	test -d usr || ln -s . usr
-	cp -v scripts/md5.sh bin/md5.sh
-	chmod +x bin/md5.sh
+	cp -v scripts/md5.sh bin/md5
+	chmod +x bin/md5
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" all
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" install
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C cocoroms DESTDIR="$$SHELF"
