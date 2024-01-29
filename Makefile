@@ -84,8 +84,14 @@ done-FoenixMgr: FoenixMgr
 
 done-toolshed: toolshed
 	test -d usr || ln -s . usr
+	cp -v scripts/md5.sh bin/md5.sh
+	chmod +x bin/md5.sh
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" all
 	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C build/unix DESTDIR="$$SHELF" install
+	SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C cocoroms DESTDIR="$$SHELF"
+	: TODO : the make in hdbdos seems to build rom files that are 3 bytes too big
+	: TODO : and that causes failure: 'makewav: Error: Wrong DECB block length'
+	-SHELF=`pwd`; cd toolshed && $(RUN_MAKE) -C hdbdos DESTDIR="$$SHELF"
 	date > done-toolshed
 
 done-nitros9: nitros9
