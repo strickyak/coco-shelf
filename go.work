@@ -2,7 +2,4 @@ go 1.18
 
 use (
 	./frobio/frob3/lemma
-	./gomar
-	./livy-apl
-	./godo-client
 )
