@@ -62,13 +62,13 @@ gccretro:
 	cp lwtools/extra/as bin/m6809-unknown-as
 	cp lwtools/extra/ld bin/m6809-unknown-ld
 	cp lwtools/extra/ar bin/m6809-unknown-ar
-	set -x; test -s bin/m6809-unknown-ranlib || ln -s /bin/true bin/m6809-unknown-ranlib
-	set -x; test -s bin/makeinfo || ln -s /bin/true bin/makeinfo
+	set -x; ln -sfv /bin/true bin/m6809-unknown-ranlib
+	set -x; ln -sfv /bin/true bin/makeinfo
 
 ############################################################################
 
 build-frobio/done: frobio gomar cmoc/done nitros9/done build-gccretro/done all-eou
-	test -s bin/gcc6809 || ln -s m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
+	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
 	make -C build-frobio
