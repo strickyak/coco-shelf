@@ -51,3 +51,5 @@ COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_
 
 EOU_H6309_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip
 EOU_M6809_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6809_ONLY)_12-02-2022.zip
+EOU_101_H6309_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version1_0_1_(6309_ONLY)_04-07-2024.zip
+EOU_101_M6809_URL:=http://www.lcurtisboyle.com/nitros9/EOU_Version1_0_1_(6809_ONLY)_04-07-2024.zip

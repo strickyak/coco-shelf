@@ -18,7 +18,7 @@ CREATE_GO_WORK = rm -f go.work && go work init $$( find . -name go.mod | sed 's;
 
 all: all-fetches all-eou lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done
 all-without-gccretro: all-fetches all-eou lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
-all-without-gccretro-frobio: all-fetches done-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
+all-without-gccretro-frobio: all-fetches all-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
 
 run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
@@ -30,12 +30,20 @@ run-f256-flash: nitros9/done
 
 ############################################################################
 
-all-eou: eou-h6309 eou-m6809
+all-eou: eou-h6309 eou-m6809 eou-101-h6309 eou-101-m6809
 eou-h6309: inputs/eou-h6309.zip
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && unzip ../$<
 eou-m6809: inputs/eou-m6809.zip
+	rm -rf $@
+	mkdir -p $@
+	cd $@ && unzip ../$<
+eou-101-h6309: inputs/eou-101-h6309.zip
+	rm -rf $@
+	mkdir -p $@
+	cd $@ && unzip ../$<
+eou-101-m6809: inputs/eou-101-m6809.zip
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && unzip ../$<
@@ -78,11 +86,11 @@ FoenixMgr/done: FoenixMgr nitros9/done
 	date > FoenixMgr/done
 
 toolshed/done: toolshed lwtools/done
-	test -d usr || ln -s . usr
 	cp -v scripts/md5.sh bin/md5
 	chmod +x bin/md5
 	make -C toolshed -C build/unix DESTDIR="$$SHELF" all
 	make -C toolshed -C build/unix DESTDIR="$$SHELF" install
+	( cd bin && ln -sfv ../usr/bin/* . )
 	make -C toolshed -C cocoroms DESTDIR="$$SHELF"
 	make -C toolshed -C hdbdos DESTDIR="$$SHELF"
 	date > toolshed/done
@@ -100,7 +108,7 @@ nitros9/done: nitros9 toolshed/done lwtools/done
 lwtools/done: lwtools
 	make -C lwtools PREFIX="$(SHELF)" all
 	make -C lwtools PREFIX="$(SHELF)" install
-	set -x; test -z "$$(find bin -name lwasm  -size +10)" || ( \
+	set -x; test -z "$$(find bin -name lwasm  -size +10k)" || ( \
   mv -fv bin/lwasm bin/lwasm.orig && \
   cp -fv scripts/lwasm-with-listing.sh bin/lwasm && \
   chmod +x bin/lwasm \
@@ -176,6 +184,8 @@ all-inputs:  \
   inputs/$(COCO_GCCRETRO_TARBALL) \
   inputs/eou-h6309.zip \
   inputs/eou-m6809.zip \
+  inputs/eou-101-h6309.zip \
+  inputs/eou-101-m6809.zip \
   ##
 
 inputs:
@@ -193,6 +203,10 @@ inputs/eou-h6309.zip: inputs
 	set -x; test -s $@ || curl "$(EOU_H6309_URL)" > $@
 inputs/eou-m6809.zip: inputs
 	set -x; test -s $@ || curl "$(EOU_M6809_URL)" > $@
+inputs/eou-101-h6309.zip: inputs
+	set -x; test -s $@ || curl "$(EOU_101_H6309_URL)" > $@
+inputs/eou-101-m6809.zip: inputs
+	set -x; test -s $@ || curl "$(EOU_101_M6809_URL)" > $@
 
 ############################################################################
 
@@ -200,5 +214,5 @@ clean-shelf:
 	rm -rf build-* done-*
 	rm -rf bin share lib libexec usr include .cache
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
-	rm -rf eou-h6309 eou-m6809
+	rm -rf eou*h6309 eou*m6809 gomar whippets
 	##
