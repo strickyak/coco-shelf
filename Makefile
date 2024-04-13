@@ -16,7 +16,7 @@ RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 CREATE_GO_WORK = rm -f go.work && go work init $$( find . -name go.mod | sed 's;/go.mod;;') && cat -n go.work
 
-all: all-fetches all-eou lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done
+all: all-fetches all-eou lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done whippets/done
 all-without-gccretro: all-fetches all-eou lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
 all-without-gccretro-frobio: all-fetches all-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
 
@@ -67,6 +67,15 @@ gccretro:
 
 ############################################################################
 
+whippets/done: whippets build-frobio/done gomar
+	cd whippets && bash run-hasty.bash hasty/[a-z]*.d
+	date > whippets/done
+ifdef KEEP
+	: keeping /tmp/for-hasty-* files.
+else
+	rm -rf /tmp/for-hasty-*
+endif
+
 build-frobio/done: frobio gomar cmoc/done nitros9/done build-gccretro/done all-eou
 	test -s bin/gcc6809 || ln -s m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
@@ -74,7 +83,7 @@ build-frobio/done: frobio gomar cmoc/done nitros9/done build-gccretro/done all-e
 	make -C build-frobio
 	date > build-frobio/done
 
-build-frobio/done-without-gccretro: frobio gomar cmoc/done nitros9/done all-eou
+build-frobio/done-without-gccretro: frobio gomar whippets cmoc/done nitros9/done all-eou
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
 	make -C build-frobio all-without-gccretro
@@ -159,6 +168,7 @@ all-gits: \
   toolshed \
   nitros9 \
   gomar \
+  whippets \
   frobio \
   ##
 
@@ -173,6 +183,9 @@ gomar: inputs
 	set -x; $(CREATE_GO_WORK)
 frobio: inputs
 	set -x; test -s $@ || git clone $(COCO_FROBIO_REPO) $@
+	set -x; $(CREATE_GO_WORK)
+whippets: inputs
+	set -x; test -s $@ || git clone $(COCO_WHIPPETS_REPO) $@
 	set -x; $(CREATE_GO_WORK)
 
 ############################################################################
@@ -200,13 +213,13 @@ inputs/$(COCO_CMOC_TARBALL): inputs
 inputs/$(COCO_GCCRETRO_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_GCCRETRO_URL) > $@
 inputs/eou-h6309.zip: inputs
-	set -x; test -s $@ || curl "$(EOU_H6309_URL)" > $@
+	set -x; test -s $@ || curl $(EOU_H6309_URL) > $@
 inputs/eou-m6809.zip: inputs
-	set -x; test -s $@ || curl "$(EOU_M6809_URL)" > $@
+	set -x; test -s $@ || curl $(EOU_M6809_URL) > $@
 inputs/eou-101-h6309.zip: inputs
-	set -x; test -s $@ || curl "$(EOU_101_H6309_URL)" > $@
+	set -x; test -s $@ || curl $(EOU_101_H6309_URL) > $@
 inputs/eou-101-m6809.zip: inputs
-	set -x; test -s $@ || curl "$(EOU_101_M6809_URL)" > $@
+	set -x; test -s $@ || curl $(EOU_101_M6809_URL) > $@
 
 ############################################################################
 
