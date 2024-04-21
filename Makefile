@@ -14,11 +14,14 @@ include conf.mk
 # We fix the PATH to avoid differences due to a personal non-standard PATH.
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
-CREATE_GO_WORK = rm -f go.work && go work init $$( find . -name go.mod | sed 's;/go.mod;;') && cat -n go.work
+CREATE_GO_WORK = rm -f go.work && go work init $$( find [a-z]* -name go.mod | sed 's;/go.mod;;') && cat -n go.work
 
-all: all-fetches all-eou lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done
-all-without-gccretro: all-fetches all-eou lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
-all-without-gccretro-frobio: all-fetches all-eou done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
+all: all-fetches all-eou go.work lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done
+all-without-gccretro: all-fetches all-eou go.work lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
+all-without-gccretro-frobio: all-fetches all-eou go.work done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
+
+go.work: _FORCE_
+	set -x ; $(CREATE_GO_WORK)
 
 run-lemma: all-without-gccretro
 	make -C build-frobio run-lemma
@@ -68,6 +71,7 @@ gccretro:
 ############################################################################
 
 build-frobio/done: frobio gomar cmoc/done nitros9/done build-gccretro/done all-eou
+	set -x ; $(CREATE_GO_WORK)
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
@@ -216,3 +220,5 @@ clean-shelf:
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou*h6309 eou*m6809 gomar whippets
 	##
+
+_FORCE_:

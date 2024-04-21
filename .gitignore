@@ -2,30 +2,27 @@ done-*
 RCS
 *,v
 .*.un~
+go.work
 
 # any directory except mirror
 .cache/
 bin/
 nitros9/
-bin/
 build-frobio/
 build-gcc-4.6.4/
-cmoc-0.*/
+cmoc/
 frobio/
-gcc-4.6.*/
+gccretro/
 include/
 lib/
 libexec/
-lwtools-4.*/
+lwtools/
 m6809-unknown/
 nitros9/
 share/
 toolshed/
+whippets/
 
-mirror/*.tar*
-mirror/*.zip
-mirror/*/
-mirror/gcc-config-guess
+inputs/
 
-# usr is a symbolic link to .
-usr
+usr/
