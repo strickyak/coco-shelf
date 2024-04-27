@@ -40,7 +40,7 @@ su - coco
 # ---- Do the build ----
 git clone https://github.com/strickyak/coco-shelf.git
 cd coco-shelf/
-make
+make ANON=1 all
 ```
 
 (If you don't have an account on github and that ssh key in your
