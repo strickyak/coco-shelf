@@ -15,21 +15,23 @@ include conf.mk
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 # Keeping go.work up-to-date really make golang happy.
-CREATE_GO_WORK = rm -f go.work && go work init $$( find [a-z]* -name go.mod | sed 's;/go.mod;;') && cat -n go.work
+CREATE_GO_WORK = rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | sed 's;/go.mod;;') && cat -n go.work
 
 all: all-fetches all-eou go.work lwtools/done cmoc/done build-gccretro/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done whippets/done
-all-without-gccretro: all-fetches all-eou go.work lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
-all-without-gccretro-frobio: all-fetches all-eou go.work done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
+
+#TODO# revisit without-gccretro
+#TODO# all-without-gccretro: all-fetches all-eou go.work lwtools/done cmoc/done FoenixMgr/done toolshed/done nitros9/done build-frobio/done-without-gccretro
+#TODO# all-without-gccretro-frobio: all-fetches all-eou go.work done-lwtools done-cmoc done-FoenixMgr done-toolshed done-nitros9
 
 go.work: _FORCE_
 	set -x ; $(CREATE_GO_WORK)
 
-run-lemma: all-without-gccretro
+run-lemma: build-frobio/done
 	make -C build-frobio run-lemma
 
 f256-flash: run-f256-flash
 	: "f256-flash" is the old target name.  "run-f256-flash" is the new target name.
-run-f256-flash: nitros9/done
+run-f256-flash: FoenixMgr/done
 	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash
 
 ############################################################################
@@ -52,26 +54,26 @@ eou-101-m6809: inputs/eou-101-m6809.zip
 	mkdir -p $@
 	cd $@ && unzip ../$<
 
-lwtools:
+lwtools: inputs/$(COCO_LWTOOLS_TARBALL)
 	set -x; test -d $@ || tar -xzf inputs/$(COCO_LWTOOLS_TARBALL) && mv -v $(COCO_LWTOOLS_VERSION) $@
-cmoc:
+cmoc: inputs/$(COCO_CMOC_TARBALL)
 	set -x; test -d $@ || tar -xzf inputs/$(COCO_CMOC_TARBALL) && mv -v $(COCO_CMOC_VERSION) $@
-gccretro:
+gccretro: inputs/$(COCO_GCCRETRO_TARBALL) lwtools/done inputs/gcc-config-guess
 	set -x; test -d $@ || tar -xjf inputs/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) $@ && \
 	      (cd $@ && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch)
 	mkdir -p bin
-	cp -f -v inputs/gcc-config-guess "$@/config.guess"
-	cp -f -v inputs/gcc-config-guess "$@/libjava/libltdl/config.guess"
-	cp -f -v inputs/gcc-config-guess "$@/libjava/classpath/config.guess"
-	cp lwtools/extra/as bin/m6809-unknown-as
-	cp lwtools/extra/ld bin/m6809-unknown-ld
-	cp lwtools/extra/ar bin/m6809-unknown-ar
+	cp -fv inputs/gcc-config-guess "$@/config.guess"
+	cp -fv inputs/gcc-config-guess "$@/libjava/libltdl/config.guess"
+	cp -fv inputs/gcc-config-guess "$@/libjava/classpath/config.guess"
+	cp -fv lwtools/extra/as bin/m6809-unknown-as
+	cp -fv lwtools/extra/ld bin/m6809-unknown-ld
+	cp -fv lwtools/extra/ar bin/m6809-unknown-ar
 	set -x; ln -sfv /bin/true bin/m6809-unknown-ranlib
 	set -x; ln -sfv /bin/true bin/makeinfo
 
 ############################################################################
 
-whippets/done: whippets build-frobio/done gomar
+whippets/done: whippets build-frobio/done gomar go.work
 	make -C whippets
 	date > whippets/done
 ifdef KEEP
@@ -81,19 +83,18 @@ else
 	make -C whippets clean
 endif
 
-build-frobio/done: frobio gomar cmoc/done nitros9/done build-gccretro/done all-eou
-	set -x ; $(CREATE_GO_WORK)
+build-frobio/done: frobio cmoc/done nitros9/done build-gccretro/done all-eou go.work
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
 	make -C build-frobio
 	date > build-frobio/done
 
-build-frobio/done-without-gccretro: frobio gomar whippets cmoc/done nitros9/done all-eou
-	mkdir -p build-frobio
-	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
-	make -C build-frobio all-without-gccretro
-	date > build-frobio/done-without-gccretro
+#TODO#build-frobio/done-without-gccretro: frobio gomar whippets cmoc/done nitros9/done all-eou
+#TODO# 	mkdir -p build-frobio
+#TODO# 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
+#TODO# 	make -C build-frobio all-without-gccretro
+#TODO# 	date > build-frobio/done-without-gccretro
 
 FoenixMgr/done: FoenixMgr nitros9/done
 	echo 'set -x; python3 "$$@"' > bin/python && chmod +x bin/python
@@ -178,20 +179,20 @@ all-gits: \
   frobio \
   ##
 
-FoenixMgr: inputs
-	set -x; test -s $@ || git clone $(COCO_FOENIXMGR_REPO) $@
-toolshed: inputs
-	set -x; test -s $@ || git clone $(COCO_TOOLSHED_REPO) $@
-nitros9: inputs
-	set -x; test -s $@ || git clone $(COCO_NITROS9_REPO) $@
-gomar: inputs
-	set -x; test -s $@ || git clone $(COCO_GOMAR_REPO) $@
+FoenixMgr:
+	set -x; test -d $@ || git clone $(COCO_FOENIXMGR_REPO) $@
+toolshed:
+	set -x; test -d $@ || git clone $(COCO_TOOLSHED_REPO) $@
+nitros9:
+	set -x; test -d $@ || git clone $(COCO_NITROS9_REPO) $@
+gomar:
+	set -x; test -d $@ || git clone $(COCO_GOMAR_REPO) $@
 	set -x; $(CREATE_GO_WORK)
-frobio: inputs
-	set -x; test -s $@ || git clone $(COCO_FROBIO_REPO) $@
+frobio:
+	set -x; test -d $@ || git clone $(COCO_FROBIO_REPO) $@
 	set -x; $(CREATE_GO_WORK)
-whippets: inputs
-	set -x; test -s $@ || git clone $(COCO_WHIPPETS_REPO) $@
+whippets:
+	set -x; test -d $@ || git clone $(COCO_WHIPPETS_REPO) $@
 	set -x; $(CREATE_GO_WORK)
 
 ############################################################################
