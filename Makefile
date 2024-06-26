@@ -30,7 +30,9 @@ run-lemma: build-frobio/done
 	make -C build-frobio run-lemma
 
 f256-flash: run-f256jr-flash
-	: "f256-flash" is the old target name.  "run-f256jr-flash" is the new target name.
+	: "f256-flash" is the old target name.  "run-f256-flash" is the new target name.
+run-f256-flash: FoenixMgr/done
+	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash
 run-f256jr-flash: FoenixMgr/done
 	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash_f256jr
 run-f256k-flash: FoenixMgr/done
