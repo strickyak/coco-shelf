@@ -1,4 +1,4 @@
-for cmd in /usr/bin/md5sum /bin/md5sum /usr/bin/md5 /bin/md5
+for cmd in /usr/bin/md5sum /bin/md5sum /usr/bin/md5 /bin/md5 /sbin/md5
 do
   if test -x "$cmd"
   then
