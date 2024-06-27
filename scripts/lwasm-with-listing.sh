@@ -25,7 +25,7 @@ do
         	;;
         	
         @@-o* )
-        	y=$(expr match "$x" '..\(.*\)')
+        	y=$(expr "X$x" : 'X..\(.*\)')
         	FOR_O="--map=$(basename $y).map --list=$(basename $y).list $XLIST"
         	;;
         esac
