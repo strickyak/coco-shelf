@@ -59,12 +59,12 @@ eou-101-m6809: inputs/eou-101-m6809.zip
 	cd $@ && unzip ../$<
 
 lwtools: inputs/$(COCO_LWTOOLS_TARBALL)
-	set -x; test -d $@ || tar -xzf inputs/$(COCO_LWTOOLS_TARBALL) && mv -v $(COCO_LWTOOLS_VERSION) $@
+	set -x; test -d $@ || { tar -xzf inputs/$(COCO_LWTOOLS_TARBALL) && mv -v $(COCO_LWTOOLS_VERSION) $@ ; }
 cmoc: inputs/$(COCO_CMOC_TARBALL)
-	set -x; test -d $@ || tar -xzf inputs/$(COCO_CMOC_TARBALL) && mv -v $(COCO_CMOC_VERSION) $@
+	set -x; test -d $@ || { tar -xzf inputs/$(COCO_CMOC_TARBALL) && mv -v $(COCO_CMOC_VERSION) $@ ; }
 gccretro: inputs/$(COCO_GCCRETRO_TARBALL) lwtools/done inputs/gcc-config-guess
-	set -x; test -d $@ || tar -xjf inputs/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) $@ && \
-	      (cd $@ && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch)
+	set -x; test -d $@ || { tar -xjf inputs/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) $@ && \
+	      (cd $@ && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch) ; }
 	mkdir -p bin
 	cp -fv inputs/gcc-config-guess "$@/config.guess"
 	cp -fv inputs/gcc-config-guess "$@/libjava/libltdl/config.guess"

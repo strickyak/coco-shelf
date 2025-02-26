@@ -37,7 +37,7 @@ COCO_GOMAR_REPO:=$(REPO_PREFIX)strickyak/gomar$(REPO_SUFFIX)
 COCO_WHIPPETS_REPO:=$(REPO_PREFIX)strickyak/whippets$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
-COCO_LWTOOLS_VERSION:=lwtools-4.22
+COCO_LWTOOLS_VERSION:=lwtools-4.23
 COCO_CMOC_VERSION:=cmoc-0.1.90
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
 
