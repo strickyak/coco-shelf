@@ -38,7 +38,7 @@ COCO_WHIPPETS_REPO:=$(REPO_PREFIX)strickyak/whippets$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
 COCO_LWTOOLS_VERSION:=lwtools-4.22
-COCO_CMOC_VERSION:=cmoc-0.1.86
+COCO_CMOC_VERSION:=cmoc-0.1.90
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
 
 # Add the extensions found on the tarballs.
@@ -47,7 +47,8 @@ COCO_CMOC_TARBALL=$(COCO_CMOC_VERSION).tar.gz
 COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
 
 COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
-COCO_CMOC_URL:="http://perso.b2b2c.ca/~sarrazip/dev/$(COCO_CMOC_TARBALL)"
+#old# COCO_CMOC_URL:="http://perso.b2b2c.ca/~sarrazip/dev/$(COCO_CMOC_TARBALL)"
+COCO_CMOC_URL:="http://gvlsywt.cluster051.hosting.ovh.net/dev/$(COCO_CMOC_TARBALL)"
 COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
 
 EOU_H6309_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip'
