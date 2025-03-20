@@ -44,7 +44,7 @@ make ANON=1 all
 ```
 
 (If you don't have an account on github and that ssh key in your
-ssh-agent, change the final `make` to `make-anon` and it will
+ssh-agent, add `ANON=1`  to the `make` command line, and it will
 clone github repos anonymously, instead of using your account.)
 
 If that succeeded, the last two lines printed will be
