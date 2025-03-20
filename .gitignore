@@ -8,8 +8,7 @@ go.work
 .cache/
 bin/
 nitros9/
-build-frobio/
-build-gcc-4.6.4/
+build-*/
 cmoc/
 frobio/
 gccretro/
