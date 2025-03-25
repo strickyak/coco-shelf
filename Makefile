@@ -15,12 +15,12 @@ include conf.mk
 RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 
 # Keeping go.work up-to-date really make golang happy.
-CREATE_GO_WORK = rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && cat -n go.work
+CREATE_GO_WORK = set -x; rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && cat -n go.work
 
 all: all-fetches all-eou go.work lwtools.done cmoc.done gccretro.done FoenixMgr.done toolshed.done nitros9.done frobio.done whippets.done
 
 go.work: _FORCE_
-	set -x ; $(CREATE_GO_WORK)
+	$(CREATE_GO_WORK)
 
 ########
 ##
@@ -43,9 +43,9 @@ run-f256k-flash: FoenixMgr.done
 all-eou: eou-h6309.done eou-m6809.done eou-101-h6309.done eou-101-m6809.done
 
 eou-h6309.done: inputs/eou-h6309.zip
-	rm -rf eou-h6309
-	mkdir -p eou-h6309
-	cd eou-h6309 && unzip ../$<
+	B=$(basename $@); rm -rf $$B
+	B=$(basename $@); mkdir -p $$B
+	B=$(basename $@); cd $$B && unzip ../$<
 	date > $@
 eou-m6809.done: inputs/eou-m6809.zip
 	B=$(basename $@); rm -rf $$B
@@ -65,10 +65,10 @@ eou-101-m6809.done: inputs/eou-101-m6809.zip
 
 lwtools.got: inputs/$(COCO_LWTOOLS_TARBALL)
 	set -x; test -d lwtools || { tar -xzf inputs/$(COCO_LWTOOLS_TARBALL) && mv -v $(COCO_LWTOOLS_VERSION) lwtools ; }
-	date > lwtools.got
+	date > $@
 cmoc.got: inputs/$(COCO_CMOC_TARBALL)
 	set -x; test -d cmoc || { tar -xzf inputs/$(COCO_CMOC_TARBALL) && mv -v $(COCO_CMOC_VERSION) cmoc ; }
-	date > cmoc.got
+	date > $@
 gccretro.got: inputs/$(COCO_GCCRETRO_TARBALL) lwtools.done inputs/gcc-config-guess
 	set -x; test -d gccretro || { tar -xjf inputs/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) gccretro && \
 	      (cd gccretro && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch) ; }
@@ -81,7 +81,7 @@ gccretro.got: inputs/$(COCO_GCCRETRO_TARBALL) lwtools.done inputs/gcc-config-gue
 	cp -fv lwtools/extra/ar bin/m6809-unknown-ar
 	set -x; ln -sfv /bin/true bin/m6809-unknown-ranlib
 	set -x; ln -sfv /bin/true bin/makeinfo
-	date > gccretro.got
+	date > $@
 
 ############################################################################
 
@@ -188,34 +188,34 @@ all-gits: \
   ##
 
 FoenixMgr.got:
-	set -x; test -d FoenixMgr || git clone $(COCO_FOENIXMGR_REPO) FoenixMgr
-	date > FoenixMgr.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_FOENIXMGR_REPO) $$B
+	date > $@
 toolshed.got:
-	set -x; test -d toolshed || git clone $(COCO_TOOLSHED_REPO) toolshed
-	date > toolshed.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_TOOLSHED_REPO) $$B
+	date > $@
 nitros9.got:
-	set -x; test -d nitros9 || git clone $(COCO_NITROS9_REPO) nitros9
-	date > nitros9.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_NITROS9_REPO) $$B
+	date > $@
 gomar.got:
-	set -x; test -d gomar || git clone $(COCO_GOMAR_REPO) gomar
-	set -x; $(CREATE_GO_WORK)
-	date > gomar.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_GOMAR_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 frobio.got:
-	set -x; test -d frobio || git clone $(COCO_FROBIO_REPO) frobio
-	set -x; $(CREATE_GO_WORK)
-	date > frobio.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_FROBIO_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 whippets.got:
-	set -x; test -d whippets || git clone $(COCO_WHIPPETS_REPO) whippets
-	set -x; $(CREATE_GO_WORK)
-	date > whippets.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_WHIPPETS_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 nekot-coco-microkernel.got:
-	set -x; test -d nekot-coco-microkernel || git clone $(COCO_NEKOT_REPO) nekot-coco-microkernel
-	set -x; $(CREATE_GO_WORK)
-	date > nekot-coco-microkernel.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_NEKOT_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 copico-bonobo.got:
-	set -x; test -d copico-bonobo || git clone $(COCO_BONOBO_REPO) copico-bonobo
-	set -x; $(CREATE_GO_WORK)
-	date > copico-bonobo.got
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_BONOBO_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 
 ############################################################################
 
@@ -253,7 +253,7 @@ inputs/eou-101-m6809.zip: inputs
 ############################################################################
 
 clean-shelf:
-	rm -rf build-* done-*
+	rm -rf build-* done-* *.got *.done go.work
 	rm -rf bin share lib libexec usr include .cache
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
