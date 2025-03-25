@@ -1,4 +1,5 @@
-done-*
+*.done
+*.got
 RCS
 *,v
 .*.un~
@@ -21,6 +22,12 @@ nitros9/
 share/
 toolshed/
 whippets/
+eou-*09/
+FoenixMgr/
+copico-bonobo/
+gomar/
+nekot-coco-microkernel/
+
 
 inputs/
 
