@@ -14,10 +14,16 @@ Here are instructions for building on three platforms:
 
 ## For Ubuntu Linux on 64-bit Intel or AMD
 Use a modern Linux distro on an x86_64 platform.
-Clone this coco-shelf repo, cd into it, and
-just type `make`.  Let me know what goes wrong!
 
-It can take 8 minutes or more to build everything,
+1. Clone this coco-shelf repo
+1. cd into it
+1. Execute `sh prepare-ubuntu-24-04.sh`
+   (it will need your password to update and install)
+1. Execute `make`
+
+Let me know what goes wrong!
+
+It can take 15 minutes or more to build everything,
 and it needs perhaps 1.7 GB of disk.
 
 ## Example: For Ubuntu 22.10 x64 at Digital Ocean:
@@ -26,12 +32,7 @@ within an hour) this works for me:
 
 ```
 # ---- Install needed linux packages ----
-export DEBIAN_FRONTEND=noninteractive
-apt -y update < /dev/null
-apt -y upgrade < /dev/null
-apt -y install gcc make flex bison gdb build-essential
-apt -y install git golang zip curl python3-serial
-apt -y install libgmp-dev libmpfr-dev libmpc-dev libfuse-dev
+sh prepare-ubuntu-24-04.sh
 
 # ---- Create a user account 'coco' for doing the build ----
 useradd --shell /bin/bash -m coco
@@ -47,22 +48,15 @@ make ANON=1 all
 ssh-agent, add `ANON=1`  to the `make` command line, and it will
 clone github repos anonymously, instead of using your account.)
 
-If that succeeded, the last two lines printed will be
-```
-make[1]: Leaving directory '/home/coco/coco-shelf/build-frobio'
-date > done-frobio
-```
-
-Above that it lists the products of the frobio build,
-which are in the `build-frobio` directory.
-
 ## For MacOS
 
 MacOS can't build the old version of GCC, which is currently
 only needed for building the Axiom bootrom in Frobio.
 
 If you can live without that (most of you can),
-instead of the final "make", use "make all-without-gccretro".
+instead of "make" (which defaults to "make all"),
+try making the actual thing you wanted,
+like "make FoenixMgr.done".
 
 TODO: Are there any other dependencies or packages to load
 for MacOS?  What versions of MacOS does it work on?
@@ -97,35 +91,15 @@ chmod +x bin/go
 make
 ```
 
-## What is the mirror/ directory?
-
-Because you might not be connected to the internet while working on
-your CoCo (I often am not), everything you need from the internet is
-fetched on your first `make` and cached in the `mirror/` directory.
-That includes several tarballs and zips and several github repositories.
-
-If you start a new coco-shelf, you can copy (recursively) the mirror
-directory into the new coco-shelf, or symlink it.  That will save time and
-bandwidth doing downloads, and will work if you are not on the internet.
-
 ## Re-building portions.
 
-If you delete one of the `done-*` files
-( `done-cmoc done-frobio done-gccretro done-lwtools done-nitros9 done-toolshed` )
+If you delete one of the `*.done` files
+( e.g. `cmoc.done frobio.done gccretro.done lwtools.done nitros9.done toolshed.done` )
 and type `make`, it will rebuild that portion of the shelf.
 
 If you delete the source directory associated with one of those portions
 and type `make`, it will make a new copy of that directory from the
 mirror, and rebuild the portion.
-
-## Freshening the mirrored portions.
-
-If you want to freshen the git repos in the mirror, you can chdir into
-the mirror directory and type `make pull`.  That will do a `git pull`
-in each repo.
-
-If you want to use a new version of one of the tarballed portions, change
-the version number in `conf.mk` and type `make`.  It should fetch it.
 
 ## Final Advice on filenames.
 
