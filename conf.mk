@@ -43,18 +43,47 @@ COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
 COCO_LWTOOLS_VERSION:=lwtools-4.23
 COCO_CMOC_VERSION:=cmoc-0.1.90
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
+COCO_PICOSDK_VERSION:=pico-sdk-2.1.1
+COCO_PICOTOOL_VERSION:=picotool-2.1.1
 
 # Add the extensions found on the tarballs.
 COCO_LWTOOLS_TARBALL=$(COCO_LWTOOLS_VERSION).tar.gz
 COCO_CMOC_TARBALL=$(COCO_CMOC_VERSION).tar.gz
 COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
+COCO_PICOSDK_TARBALL=$(COCO_PICOSDK_VERSION).tar.bz2
+COCO_PICOTOOL_TARBALL=$(COCO_PICOTOOL_VERSION).tar.bz2
 
-COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
-#old# COCO_CMOC_URL:="http://perso.b2b2c.ca/~sarrazip/dev/$(COCO_CMOC_TARBALL)"
+# URLS for the tarballs.
+
+ifdef MIRROR
+
+PIZGA_MIRROR_URL:=http://pizga.net/inputs
+
+COCO_CMOC_URL:='$(PIZGA_MIRROR_URL)/$(COCO_CMOC_TARBALL)'
+COCO_LWTOOLS_URL:='$(PIZGA_MIRROR_URL)/$(COCO_LWTOOLS_TARBALL)'
+COCO_GCCRETRO_URL:='$(PIZGA_MIRROR_URL)/$(COCO_GCCRETRO_TARBALL)'
+
+COCO_PICOSDK_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOSDK_TARBALL)'
+COCO_PICOTOOL_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOTOOL_TARBALL)'
+
+EOU_H6309_URL:='$(PIZGA_MIRROR_URL)/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip'
+EOU_M6809_URL:='$(PIZGA_MIRROR_URL)/EOU_Version%201_0_0_(6809_ONLY)_12-02-2022.zip'
+EOU_101_H6309_URL:='$(PIZGA_MIRROR_URL)/EOU_Version1_0_1_(6309_ONLY)_04-07-2024.zip'
+EOU_101_M6809_URL:='$(PIZGA_MIRROR_URL)/EOU_Version1_0_1_(6809_ONLY)_04-07-2024.zip'
+
+else
+
+# OBTW # http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html (since Google doesn't know it)
 COCO_CMOC_URL:="http://gvlsywt.cluster051.hosting.ovh.net/dev/$(COCO_CMOC_TARBALL)"
+COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
 COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
+
+COCO_PICOSDK_URL:="http://pizga.net/inputs/$(COCO_PICOSDK_TARBALL)"
+COCO_PICOTOOL_URL:="http://pizga.net/inputs/$(COCO_PICOTOOL_TARBALL)"
 
 EOU_H6309_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip'
 EOU_M6809_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6809_ONLY)_12-02-2022.zip'
 EOU_101_H6309_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version1_0_1_(6309_ONLY)_04-07-2024.zip'
 EOU_101_M6809_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version1_0_1_(6809_ONLY)_04-07-2024.zip'
+
+endif

@@ -17,6 +17,8 @@ RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
 # Keeping go.work up-to-date really make golang happy.
 CREATE_GO_WORK = set -x; rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && cat -n go.work
 
+PICO_ENV = PICO_EXAMPLES_PATH= PICO_SDK_PATH=$S/pico-sdk
+
 all: all-fetches all-eou go.work lwtools.done cmoc.done gccretro.done FoenixMgr.done toolshed.done nitros9.done frobio.done whippets.done
 
 go.work: _FORCE_
@@ -83,11 +85,48 @@ gccretro.got: inputs/$(COCO_GCCRETRO_TARBALL) lwtools.done inputs/gcc-config-gue
 	set -x; ln -sfv /bin/true bin/makeinfo
 	date > $@
 
+pico-sdk.got:
+	set -x; test -d pico-sdk || { tar -xzf inputs/$(COCO_PICOSDK_TARBALL) ; }
+	date > "$@"
+
+picotool.got:
+	set -x; test -d picotool || { tar -xzf inputs/$(COCO_PICOTOOL_TARBALL) ; }
+	date > "$@"
+
 ############################################################################
+
+copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-microkernel.done
+	rm -rf copico-bonobo/v2.4/firmware/build-c/*
+	mkdir -p copico-bonobo/v2.4/firmware/build-c/ lib
+	make -C copico-bonobo/v2.4/firmware
+	cd copico-bonobo/v2.4/firmware/build-c/ && \
+        $(PICO_ENV) cmake ../c/
+	$(PICO_ENV) make -C copico-bonobo/v2.4/firmware/build-c/
+	: we dont really have a better place to copy it to, yet :
+	cp -fv copico-bonobo/v2.4/firmware/build-c/bonobo.uf2 lib/
+	date > "$@"
+
+nekot-coco-microkernel.done: nekot-coco-microkernel.got
+	make -C nekot-coco-microkernel
+	date > "$@"
+
+picotool.done: picotool.got pico-sdk.got
+	rm -rf build-picotool
+	mkdir -p build-picotool bin
+	cd build-picotool && \
+        $(PICO_ENV) cmake ../picotool \
+           -D'PICO_SDK_PATH'="$S/pico-sdk" \
+           -DCMAKE_INSTALL_PREFIX=$S/lib -DPICOTOOL_FLAT_INSTALL=1
+	cd build-picotool && \
+        $(PICO_ENV) cmake --build .
+	cd build-picotool && \
+        $(PICO_ENV) cmake --install .
+	cp -fv build-picotool/picotool bin/
+	date > "$@"
 
 whippets.done: whippets.got frobio.done gomar.got go.work
 	make -C whippets
-	date > whippets.done
+	date > "$@"
 ifdef KEEP
 	: keeping /tmp/for-hasty-* files.
 else
@@ -228,6 +267,8 @@ all-inputs:  \
   inputs/eou-m6809.zip \
   inputs/eou-101-h6309.zip \
   inputs/eou-101-m6809.zip \
+  inputs/$(COCO_PICOSDK_TARBALL) \
+  inputs/$(COCO_PICOTOOL_TARBALL) \
   ##
 
 inputs:
@@ -241,6 +282,12 @@ inputs/$(COCO_CMOC_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_CMOC_URL) > $@
 inputs/$(COCO_GCCRETRO_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_GCCRETRO_URL) > $@
+
+inputs/$(COCO_PICOSDK_TARBALL): inputs
+	set -x; test -s $@ || curl $(COCO_PICOSDK_URL) > $@
+inputs/$(COCO_PICOTOOL_TARBALL): inputs
+	set -x; test -s $@ || curl $(COCO_PICOTOOL_URL) > $@
+
 inputs/eou-h6309.zip: inputs
 	set -x; test -s $@ || curl $(EOU_H6309_URL) > $@
 inputs/eou-m6809.zip: inputs
@@ -257,7 +304,7 @@ clean-shelf:
 	rm -rf bin share lib libexec usr include .cache
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
-	rm -rf nekot-coco-microkernel copico-bonobo
+	rm -rf nekot-coco-microkernel copico-bonobo pico-sdk picotool
 	##
 
 _FORCE_:
