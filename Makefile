@@ -85,11 +85,11 @@ gccretro.got: inputs/$(COCO_GCCRETRO_TARBALL) lwtools.done inputs/gcc-config-gue
 	set -x; ln -sfv /bin/true bin/makeinfo
 	date > $@
 
-pico-sdk.got:
+pico-sdk.got: inputs/$(COCO_PICOSDK_TARBALL)
 	set -x; test -d pico-sdk || { tar -xzf inputs/$(COCO_PICOSDK_TARBALL) ; }
 	date > "$@"
 
-picotool.got:
+picotool.got: inputs/$(COCO_PICOTOOL_TARBALL)
 	set -x; test -d picotool || { tar -xzf inputs/$(COCO_PICOTOOL_TARBALL) ; }
 	date > "$@"
 
@@ -134,7 +134,7 @@ else
 	make -C whippets clean
 endif
 
-frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou go.work
+frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou nekot-coco-microkernel.got go.work
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
