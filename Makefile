@@ -276,36 +276,36 @@ inputs:
 
 inputs/gcc-config-guess: inputs
 	set -x; test -s $@ || curl 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/$(COCO_LWTOOLS_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_LWTOOLS_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/$(COCO_CMOC_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_CMOC_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/$(COCO_GCCRETRO_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_GCCRETRO_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 
 inputs/$(COCO_PICOSDK_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_PICOSDK_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/$(COCO_PICOTOOL_TARBALL): inputs
 	set -x; test -s $@ || curl $(COCO_PICOTOOL_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 
 inputs/eou-h6309.zip: inputs
 	set -x; test -s $@ || curl $(EOU_H6309_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/eou-m6809.zip: inputs
 	set -x; test -s $@ || curl $(EOU_M6809_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/eou-101-h6309.zip: inputs
 	set -x; test -s $@ || curl $(EOU_101_H6309_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/eou-101-m6809.zip: inputs
 	set -x; test -s $@ || curl $(EOU_101_M6809_URL) > $@
-	expr 33333 '<' $( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
+	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 
 ############################################################################
 
