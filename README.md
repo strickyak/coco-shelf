@@ -32,7 +32,14 @@ within an hour) this works for me:
 
 ```
 # ---- Install needed linux packages ----
-sh prepare-ubuntu-24-04.sh
+#      (also available in prepare-ubuntu-24-04.sh)
+export DEBIAN_FRONTEND=noninteractive
+sudo apt -y update < /dev/null
+sudo apt -y upgrade < /dev/null
+sudo apt -y install gcc make flex bison gdb build-essential
+sudo apt -y install git golang zip curl python3-serial
+sudo apt -y install libgmp-dev libmpfr-dev libmpc-dev libfuse-dev
+sudo apt -y install cmake gcc-arm-none-eabi libusb-1.0-0-dev pkg-config
 
 # ---- Create a user account 'coco' for doing the build ----
 useradd --shell /bin/bash -m coco
@@ -41,12 +48,13 @@ su - coco
 # ---- Do the build ----
 git clone https://github.com/strickyak/coco-shelf.git
 cd coco-shelf/
-make ANON=1 all
+make ANON=1 MIRROR=1 all
 ```
 
 (If you don't have an account on github and that ssh key in your
 ssh-agent, add `ANON=1`  to the `make` command line, and it will
-clone github repos anonymously, instead of using your account.)
+clone github repos anonymously, instead of using your account.
+Add `MIRROR=1` to fetch from a faster internet site.)
 
 ## For MacOS
 

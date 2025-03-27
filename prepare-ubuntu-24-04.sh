@@ -14,7 +14,6 @@ sudo DEBIAN_FRONTEND=noninteractive  apt -y upgrade < /dev/null
 sudo DEBIAN_FRONTEND=noninteractive  apt -y install gcc make flex bison gdb build-essential
 sudo DEBIAN_FRONTEND=noninteractive  apt -y install git golang zip curl python3-serial
 sudo DEBIAN_FRONTEND=noninteractive  apt -y install libgmp-dev libmpfr-dev libmpc-dev libfuse-dev
-# for Pi Pico:
 sudo DEBIAN_FRONTEND=noninteractive  apt -y install cmake gcc-arm-none-eabi libusb-1.0-0-dev pkg-config
 
 echo OKAY.
