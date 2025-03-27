@@ -9,17 +9,12 @@
 # You can edit version numbers in here, to upgrade to newer packages:
 include conf.mk
 
-# For calling make from a subdirectory, with coco-shelf as HOME and limited PATH.
-# We use coco-shelf as HOME to avoid differences due to personal dot-files.
-# We fix the PATH to avoid differences due to a personal non-standard PATH.
-RUN_MAKE = HOME="`cd .. && pwd`" PATH="`cd .. && pwd`/bin:/usr/bin:/bin" make
-
-# Keeping go.work up-to-date really make golang happy.
+# Keeping go.work up-to-date really makes golang happy.
 CREATE_GO_WORK = set -x; rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && cat -n go.work
 
-PICO_ENV = PICO_EXAMPLES_PATH= PICO_SDK_PATH=$S/pico-sdk
+PICO_ENV = PICO_EXAMPLES_PATH=/dev/null PICO_SDK_PATH=$S/pico-sdk
 
-all: all-fetches all-eou go.work lwtools.done cmoc.done gccretro.done FoenixMgr.done toolshed.done nitros9.done frobio.done whippets.done
+all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done
 
 go.work: _FORCE_
 	$(CREATE_GO_WORK)
@@ -42,24 +37,24 @@ run-f256k-flash: FoenixMgr.done
 
 ############################################################################
 
-all-eou: eou-h6309.done eou-m6809.done eou-101-h6309.done eou-101-m6809.done
+all-eou: eou-h6309.got eou-m6809.got eou-101-h6309.got eou-101-m6809.got
 
-eou-h6309.done: inputs/eou-h6309.zip
+eou-h6309.got: inputs/eou-h6309.zip
 	B=$(basename $@); rm -rf $$B
 	B=$(basename $@); mkdir -p $$B
 	B=$(basename $@); cd $$B && unzip ../$<
 	date > $@
-eou-m6809.done: inputs/eou-m6809.zip
+eou-m6809.got: inputs/eou-m6809.zip
 	B=$(basename $@); rm -rf $$B
 	B=$(basename $@); mkdir -p $$B
 	B=$(basename $@); cd $$B && unzip ../$<
 	date > $@
-eou-101-h6309.done: inputs/eou-101-h6309.zip
+eou-101-h6309.got: inputs/eou-101-h6309.zip
 	B=$(basename $@); rm -rf $$B
 	B=$(basename $@); mkdir -p $$B
 	B=$(basename $@); cd $$B && unzip ../$<
 	date > $@
-eou-101-m6809.done: inputs/eou-101-m6809.zip
+eou-101-m6809.got: inputs/eou-101-m6809.zip
 	B=$(basename $@); rm -rf $$B
 	B=$(basename $@); mkdir -p $$B
 	B=$(basename $@); cd $$B && unzip ../$<
@@ -124,7 +119,7 @@ picotool.done: picotool.got pico-sdk.got
 	cp -fv build-picotool/picotool bin/
 	date > "$@"
 
-whippets.done: whippets.got frobio.done gomar.got go.work
+whippets.done: whippets.got frobio.done gomar.got
 	make -C whippets
 	date > "$@"
 ifdef KEEP
@@ -134,7 +129,7 @@ else
 	make -C whippets clean
 endif
 
-frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou nekot-coco-microkernel.got go.work
+frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou nekot-coco-microkernel.got
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
@@ -170,44 +165,44 @@ lwtools.done: lwtools.got
 	make -C lwtools PREFIX="$(SHELF)" all
 	make -C lwtools PREFIX="$(SHELF)" install
 	set -x; test -z "$$(find bin -name lwasm  -size +10k)" || ( \
-  mv -fv bin/lwasm bin/lwasm.orig && \
-  cp -fv scripts/lwasm-with-listing.sh bin/lwasm && \
-  chmod +x bin/lwasm \
-  )
+        mv -fv bin/lwasm bin/lwasm.orig && \
+        cp -fv scripts/lwasm-with-listing.sh bin/lwasm && \
+        chmod +x bin/lwasm \
+      )
 	date > lwtools.done
 
-cmoc.done: cmoc.got
+cmoc.done: cmoc.got lwtools.done
 	cd cmoc && ./configure --prefix="$(SHELF)"
 	make -C cmoc PREFIX="$(SHELF)" all
 	make -C cmoc PREFIX="$(SHELF)" install
 	date > cmoc.done
 
-gccretro.done: gccretro.got
+gccretro.done: gccretro.got lwtools.done
 	echo PATH -- $$PATH -- PATH
 	which makeinfo
-	mkdir -p build-$<
-	SHELF=`pwd`; cd build-$< && PATH="$(PATH)" ../gccretro/configure \
-  --prefix="$$SHELF" \
-  --enable-languages=c \
-  --target=m6809-unknown \
-  --disable-libada \
-  --program-prefix=m6809-unknown- \
-  --enable-obsolete \
-  --disable-threads \
-  --disable-nls \
-  --disable-libssp \
-  --with-as="$$SHELF/bin/m6809-unknown-as" \
-  --with-ld="$$SHELF/bin/m6809-unknown-ld" \
-  --with-ar="$$SHELF/bin/m6809-unknown-ar" \
-  ##
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-gcc
-	cd build-$< && echo "// This is a kludge, not the real limits.h" > gcc/include-fixed/limits.h
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true all-target-libgcc
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-gcc
-	cd build-$< && $(RUN_MAKE) MAKEINFO=true install-target-libgcc
+	mkdir -p build-gccretro
+	SHELF=`pwd`; cd build-gccretro && PATH="$(PATH)" ../gccretro/configure \
+        --prefix="$$SHELF" \
+        --enable-languages=c \
+        --target=m6809-unknown \
+        --disable-libada \
+        --program-prefix=m6809-unknown- \
+        --enable-obsolete \
+        --disable-threads \
+        --disable-nls \
+        --disable-libssp \
+        --with-as="$$SHELF/bin/m6809-unknown-as" \
+        --with-ld="$$SHELF/bin/m6809-unknown-ld" \
+        --with-ar="$$SHELF/bin/m6809-unknown-ar" \
+        ##
+	make -C build-gccretro MAKEINFO=true all-gcc
+	cd build-gccretro && echo "// This is a kludge, not the real limits.h" > gcc/include-fixed/limits.h
+	make -C build-gccretro MAKEINFO=true all-target-libgcc
+	make -C build-gccretro MAKEINFO=true install-gcc
+	make -C build-gccretro MAKEINFO=true install-target-libgcc
 	:
 	rm -f bin/gcc6809
-	ln -s m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
+	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	:
 	date > gccretro.done
 
