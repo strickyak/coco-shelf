@@ -10,7 +10,13 @@
 include conf.mk
 
 # Keeping go.work up-to-date really makes golang happy.
-CREATE_GO_WORK = set -x; rm -f go.work && go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && cat -n go.work
+CREATE_GO_WORK = set -x; \
+    rm -f go.work && \
+    go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && \
+    cat -n go.work && \
+    mkdir -p bin && \
+    cp -fv scripts/go-easy.sh bin/go && \
+    chmod +x bin/go
 
 PICO_ENV = PICO_EXAMPLES_PATH=/dev/null PICO_SDK_PATH=$S/pico-sdk
 
