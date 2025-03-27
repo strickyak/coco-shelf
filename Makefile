@@ -19,6 +19,14 @@ all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done
 go.work: _FORCE_
 	$(CREATE_GO_WORK)
 
+
+# EXPERIMENTAL (
+GO_EASY = sh $S/scripts/go-easy.sh
+tether:
+	cd copico-bonobo/v2.4/tether && $(GO_EASY) install -x tether.go
+# EXPERIMENTAL )
+
+
 ########
 ##
 ##    run-*   targets
@@ -101,7 +109,7 @@ copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-micr
 	cp -fv copico-bonobo/v2.4/firmware/build-c/bonobo.uf2 lib/
 	date > "$@"
 
-nekot-coco-microkernel.done: nekot-coco-microkernel.got
+nekot-coco-microkernel.done: nekot-coco-microkernel.got gccretro.done frobio.done
 	make -C nekot-coco-microkernel
 	date > "$@"
 
@@ -195,9 +203,9 @@ gccretro.done: gccretro.got lwtools.done
         --with-ld="$$SHELF/bin/m6809-unknown-ld" \
         --with-ar="$$SHELF/bin/m6809-unknown-ar" \
         ##
-	make -C build-gccretro MAKEINFO=true all-gcc
+	make -j2 -C build-gccretro MAKEINFO=true all-gcc
 	cd build-gccretro && echo "// This is a kludge, not the real limits.h" > gcc/include-fixed/limits.h
-	make -C build-gccretro MAKEINFO=true all-target-libgcc
+	make -j2 -C build-gccretro MAKEINFO=true all-target-libgcc
 	make -C build-gccretro MAKEINFO=true install-gcc
 	make -C build-gccretro MAKEINFO=true install-target-libgcc
 	:
