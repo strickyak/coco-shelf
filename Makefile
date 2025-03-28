@@ -105,12 +105,13 @@ picotool.got: inputs/$(COCO_PICOTOOL_TARBALL)
 ############################################################################
 
 copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-microkernel.done
+	make -C copico-bonobo/v2.4/tether all install
 	rm -rf copico-bonobo/v2.4/firmware/build-c/*
 	mkdir -p copico-bonobo/v2.4/firmware/build-c/ lib
 	make -C copico-bonobo/v2.4/firmware
 	cd copico-bonobo/v2.4/firmware/build-c/ && \
         $(PICO_ENV) cmake ../c/
-	$(PICO_ENV) make -C copico-bonobo/v2.4/firmware/build-c/
+	$(PICO_ENV) make -j4 -C copico-bonobo/v2.4/firmware/build-c/
 	: we dont really have a better place to copy it to, yet :
 	cp -fv copico-bonobo/v2.4/firmware/build-c/bonobo.uf2 lib/
 	date > "$@"
