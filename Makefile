@@ -51,7 +51,8 @@ run-f256k-flash: FoenixMgr.done
 
 ############################################################################
 
-all-eou: eou-h6309.got eou-m6809.got eou-101-h6309.got eou-101-m6809.got
+all-eou.got: eou-h6309.got eou-m6809.got eou-101-h6309.got eou-101-m6809.got
+	date > $@
 
 eou-h6309.got: inputs/eou-h6309.zip
 	B=$(basename $@); rm -rf $$B
@@ -106,7 +107,7 @@ picotool.got: inputs/$(COCO_PICOTOOL_TARBALL)
 
 copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-microkernel.done
 	make -C copico-bonobo/v2.4/tether all install
-	rm -rf copico-bonobo/v2.4/firmware/build-c/*
+	: DISABLE : rm -rf copico-bonobo/v2.4/firmware/build-c/*
 	mkdir -p copico-bonobo/v2.4/firmware/build-c/ lib
 	make -C copico-bonobo/v2.4/firmware
 	cd copico-bonobo/v2.4/firmware/build-c/ && \
@@ -135,7 +136,7 @@ picotool.done: picotool.got pico-sdk.got
 	date > "$@"
 
 whippets.done: whippets.got frobio.done gomar.got
-	make -C whippets
+	: DISABLE : make -C whippets
 	date > "$@"
 ifdef KEEP
 	: keeping /tmp/for-hasty-* files.
@@ -144,7 +145,7 @@ else
 	make -C whippets clean
 endif
 
-frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou nekot-coco-microkernel.got
+frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou.got nekot-coco-microkernel.got
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
