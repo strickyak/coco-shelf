@@ -1,0 +1,119 @@
+nekot-bonobo-quick-release (nebo) README
+----------------------------------------
+
+Tested on coco hardware:
+  * coco2 (16K, 6809) with either CocoIOr or Bonobo
+  * coco3 (512K, 6309) with either CocoIOr or Bonobo
+
+(This release is for using the Bonobo card.
+If you use the CocoIOr card, you don't need this;
+Just boot with CocoIOr Axiom, go to page 39, and launch with "@".)
+
+This release is compiled for Ubuntu 24.04 x86_64 GNU/Linux,
+but this probably works with almost any x86_64 linux
+in the last few years.  The Linux binaries are statically
+compiled, to maximum the chance of success.
+
+*  Unzip the archive.
+
+*  Three files are fundamental:
+    
+   1. bonobo.uf2   (a compiled C program for Raspberry Pi Pico 1)
+
+   2. tether            (an x86_64 Linux static binary)
+
+   3. mcp-bonobo-only   (an x86_64 Linux static binary)
+
+*  Plus the *.game files are needed.
+
+*  All other files are for your curiosity or debugging.
+
+STEPS TO RUN:
+
+0.  Plug the Copico Bonobo 2.4 card into your
+    coco3, preferably without any MPI.  You can leave the
+    coco3 powered off (or turn it on, it doesn't matter).
+
+1.  Program the Pi Pico on the Bonobo board with the 
+    "bonobo.uf2" file:
+
+    Disconnect the USB cable for 5 seconds.
+    Plug the USB into your Linux box.
+    Wait 5 seconds.
+    Type "df" and look for the final /media/ mount path,
+       like /media/strick/RPI-RP2/
+    Copy bonobo.uf2 into that mount:
+       cp -vf bonobo.uf2 /media/strick/RPI-RP2/
+
+    Leave the USB cable plugged in.
+
+3.  In one shell, run this command:
+
+        ./mcp-bonobo-only --games_dir=.
+
+    If your .games files are in a different directory,
+    name the path to it, instead of the final dot.
+
+    You can add a flag for the time zone of the
+    clock game ( choose a slashed-location from this list
+    https://data.iana.org/time-zones/tzdb-2021a/zone1970.tab )
+    
+        ./mcp-bonobo-only --games_dir=. --zone=America/St_Johns
+
+    (To see configurable flags, run `./mcp-bonobo-only --help`).
+
+4.  In another shell, run ./tether
+    (To see configurable flags, run `./tether --help`).
+
+    You can wrap it in a "while loop" if you like:
+
+        while sleep 1 ; do ./tether ; done
+
+    but it will take more than one ^C to kill it.
+
+5.  Turn on your Coco3 on.
+    If the screen is weird, reset it once.
+    You should see Nekot running.
+
+6.  These are the temporary commands you can run:
+
+    0   stop running a game
+    L   conway's Life
+    C   clock
+    R   bogus demo saying Red    (chains to Green)
+    G   bogus demo saying Green  (chains to Blue)
+    B   bogus demo saying Blue   (chains to Red)
+    4   very incomplete Forth interpreter, but you can try `23 42 * .` 
+    S   spacewar (kinda broken, not fixed)
+
+    Hit BREAK to background a game, and BREAK to foreground it.
+    (while it is backgrounded, you can use the 0 command to kill it.)
+
+7.  If the ./tether command exits, run it again,
+    and do the following step, too.
+
+8.  If the LED on the Pi Pico blinks in Threes,
+    that means it hit a fatal error.  Unplug the USB for 5 seconds
+    and plug it back in.
+       (now the LED flashes rapidly (10Hz) -- that means
+       the Bonobo is HALTing your coco, and you must
+       reset it.)
+    Then hit RESET on your coco.
+    And you're back to Nekot.
+
+KNOWN BUGS:
+
+    * When using CocoIOr instead of Bonobo, the red/green/blue
+      games do not chain.  Instead, they crash.
+
+    * No multiplayer Chat or Games or APIs are available yet.
+
+REPOS:
+
+  https://github.com/strickyak/nekot-coco-microkernel
+
+  https://github.com/strickyak/copico-bonobo
+
+  https://github.com/strickyak/coco-shelf
+
+
