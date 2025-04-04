@@ -136,7 +136,7 @@ picotool.done: picotool.got pico-sdk.got
 	date > "$@"
 
 whippets.done: whippets.got frobio.done gomar.got
-	: DISABLE : make -C whippets
+	make -C whippets
 	date > "$@"
 ifdef KEEP
 	: keeping /tmp/for-hasty-* files.
