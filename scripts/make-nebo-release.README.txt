@@ -1,4 +1,4 @@
-nekot-bonobo-quick-release (nebo) README
+nekotos-bonobo-quick-release (nebo) README
 ----------------------------------------
 
 Tested on coco hardware:
@@ -73,7 +73,7 @@ STEPS TO RUN:
 
 5.  Turn on your Coco3 on.
     If the screen is weird, reset it once.
-    You should see Nekot running.
+    You should see NekotOS running.
 
 6.  These are the temporary commands you can run:
 
@@ -99,7 +99,7 @@ STEPS TO RUN:
        the Bonobo is HALTing your coco, and you must
        reset it.)
     Then hit RESET on your coco.
-    And you're back to Nekot.
+    And you're back to NekotOS.
 
 KNOWN BUGS:
 
@@ -110,7 +110,7 @@ KNOWN BUGS:
 
 REPOS:
 
-  https://github.com/strickyak/nekot-coco-microkernel
+  https://github.com/strickyak/nekotos
 
   https://github.com/strickyak/copico-bonobo
 

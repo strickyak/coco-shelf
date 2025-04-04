@@ -105,7 +105,7 @@ picotool.got: inputs/$(COCO_PICOTOOL_TARBALL)
 
 ############################################################################
 
-copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-microkernel.done
+copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekotos.done
 	make -C copico-bonobo/v2.4/tether all install
 	: DISABLE : rm -rf copico-bonobo/v2.4/firmware/build-c/*
 	mkdir -p copico-bonobo/v2.4/firmware/build-c/ lib
@@ -117,8 +117,8 @@ copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekot-coco-micr
 	cp -fv copico-bonobo/v2.4/firmware/build-c/bonobo.uf2 lib/
 	date > "$@"
 
-nekot-coco-microkernel.done: nekot-coco-microkernel.got gccretro.done frobio.done
-	make -C nekot-coco-microkernel
+nekotos.done: nekotos.got gccretro.done frobio.done
+	make -C nekotos
 	date > "$@"
 
 picotool.done: picotool.got pico-sdk.got
@@ -145,7 +145,7 @@ else
 	make -C whippets clean
 endif
 
-frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou.got nekot-coco-microkernel.got
+frobio.done: frobio.got cmoc.done nitros9.done gccretro.done all-eou.got nekotos.got
 	ln -sfv m6809-unknown-$(COCO_GCCRETRO_VERSION) bin/gcc6809
 	mkdir -p build-frobio
 	cd build-frobio && ../frobio/frob3/configure --nitros9="$(SHELF)/nitros9"
@@ -233,7 +233,7 @@ all-gits: \
   gomar.got \
   whippets.got \
   frobio.got \
-  nekot-coco-microkernel.got \
+  nekotos.got \
   copico-bonobo.got \
   ##
 
@@ -258,7 +258,7 @@ whippets.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_WHIPPETS_REPO) $$B
 	$(CREATE_GO_WORK)
 	date > $@
-nekot-coco-microkernel.got:
+nekotos.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_NEKOT_REPO) $$B
 	$(CREATE_GO_WORK)
 	date > $@
@@ -332,7 +332,7 @@ clean-shelf:
 	rm -rf bin share lib libexec usr include .cache
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
-	rm -rf nekot-coco-microkernel copico-bonobo pico-sdk picotool
+	rm -rf nekotos copico-bonobo pico-sdk picotool
 	##
 
 _FORCE_:

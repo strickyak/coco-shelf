@@ -35,7 +35,7 @@ COCO_NITROS9_REPO:=$(REPO_PREFIX)nitros9project/nitros9$(REPO_SUFFIX)
 COCO_FROBIO_REPO:=$(REPO_PREFIX)strickyak/frobio$(REPO_SUFFIX)
 COCO_GOMAR_REPO:=$(REPO_PREFIX)strickyak/gomar$(REPO_SUFFIX)
 COCO_WHIPPETS_REPO:=$(REPO_PREFIX)strickyak/whippets$(REPO_SUFFIX)
-COCO_NEKOT_REPO:=$(REPO_PREFIX)strickyak/nekot-coco-microkernel$(REPO_SUFFIX)
+COCO_NEKOT_REPO:=$(REPO_PREFIX)strickyak/nekotos$(REPO_SUFFIX)
 COCO_BONOBO_REPO:=$(REPO_PREFIX)strickyak/copico-bonobo$(REPO_SUFFIX)
 COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
 

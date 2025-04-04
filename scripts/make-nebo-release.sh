@@ -3,11 +3,11 @@ set -eux
 
 cd $(dirname $(dirname $0))
 
-N=nekot-coco-microkernel/build-for-16k-bonobo/
+N=nekotos/build-for-16k-bonobo/
 TS=$(date +%Y-%m-%d-%H%M%S)
 D="nebo-$TS"
 Z="nebo-$TS.zip"
-HASH=$(cat $N/_nekot1.decb.hash)
+HASH=$(cat $N/_kernel.decb.hash)
 
 mkdir "$D"
 cp -fv scripts/make-nebo-release.README.txt "$D/README.txt"
@@ -22,14 +22,14 @@ do
 done
 
 mkdir "$D/debug-files"
-cp -afv nekot-coco-microkernel/build-* "$D/debug-files"
+cp -afv nekotos/build-* "$D/debug-files"
 
-C=nekot-coco-microkernel/build-for-16k-cocoio/
-HASH=$(cat $C/_nekot1.decb.hash)
+C=nekotos/build-for-16k-cocoio/
+HASH=$(cat $C/_kernel.decb.hash)
 mkdir "$D/cocoio-serving"
 mkdir "$D/cocoio-serving/LEMMINGS"
-cp -fv $C/_nekot1.decb "$D/cocoio-serving/LEMMINGS/test98.lem"
-cp -fv $C/_nekot1.decb "$D/cocoio-serving/LEMMINGS/nekotos-cocoio.lem"
+cp -fv $C/_kernel.decb "$D/cocoio-serving/LEMMINGS/test98.lem"
+cp -fv $C/_kernel.decb "$D/cocoio-serving/LEMMINGS/nekotos-cocoio.lem"
 mkdir "$D/cocoio-serving/GAMES"
 for g in $C/*.game
 do
