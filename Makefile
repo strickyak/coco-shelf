@@ -15,8 +15,10 @@ CREATE_GO_WORK = set -x; \
     go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && \
     cat -n go.work && \
     mkdir -p bin && \
-    cp -fv scripts/go-easy.sh bin/go && \
-    chmod +x bin/go
+    true
+    #??# cp -fv scripts/go-easy.sh bin/go && \
+    #??# chmod +x bin/go
+    #??#
 
 PICO_ENV = PICO_EXAMPLES_PATH=/dev/null PICO_SDK_PATH=$S/pico-sdk
 
@@ -26,11 +28,11 @@ go.work: _FORCE_
 	$(CREATE_GO_WORK)
 
 
-# EXPERIMENTAL (
-GO_EASY = sh $S/scripts/go-easy.sh
-tether:
-	cd copico-bonobo/v2.4/tether && $(GO_EASY) install -x tether.go
-# EXPERIMENTAL )
+#??# # EXPERIMENTAL (
+#??# GO_EASY = sh $S/scripts/go-easy.sh
+#??# tether:
+#??# 	cd copico-bonobo/v2.4/tether && $(GO_EASY) install -x tether.go
+#??# # EXPERIMENTAL )
 
 
 ########

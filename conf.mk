@@ -3,10 +3,11 @@
 # You can edit version numbers to upgrade packages.
 
 S:=$(shell pwd)
-export SHELL:=/bin/bash   # Putting this 1st seems to make PATH work.
-export HOME:=$S
-export PATH:=$S/bin:/usr/bin:/bin
+P:=$(shell echo $$PATH)
 export SHELF:=$S
+export SHELL:=/bin/bash   # Putting this 1st seems to make PATH work.
+export PATH:=$S/bin:$P    # Add coco-shelf/bin at front of PATH.
+#??# export HOME:=$S
 
 # You have some options, how to clone repositories from github.
 # If you append "ANON=1" to the end of your "make" line,
