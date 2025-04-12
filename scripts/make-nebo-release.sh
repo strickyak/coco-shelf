@@ -20,7 +20,7 @@ do
     b=$(basename $g .game)
     cp -fv  $g  "$D/$b.$HASH.game"
 done
-cp -fv  $N/_kernel.decb  "$D/nekotos-bonobo.decb
+cp -fv  $N/_kernel.decb  "$D/nekotos-bonobo.decb"
 
 mkdir "$D/debug-files"
 cp -afv nekotos/build-* "$D/debug-files"
