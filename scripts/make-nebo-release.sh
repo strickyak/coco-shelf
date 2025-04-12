@@ -20,7 +20,9 @@ do
     b=$(basename $g .game)
     cp -fv  $g  "$D/$b.$HASH.game"
 done
-cp -fv  $N/_kernel.decb  "$D/nekotos-bonobo.decb"
+# TODO: Why both names?
+cp -fv  $N/_kernel.decb  "$D/kernel.bonobo-nekotos.decb"
+cp -fv  $N/_kernel.decb  "$D/kernel.for-16k-bonobo.decb"
 
 mkdir "$D/debug-files"
 cp -afv nekotos/build-* "$D/debug-files"

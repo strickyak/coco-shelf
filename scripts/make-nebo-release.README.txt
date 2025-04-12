@@ -71,11 +71,14 @@ STEPS TO RUN:
 4.  In another shell, run ./tether:
     To see configurable flags, run `./tether -help`.
 
-        ./tether -handle=PAT -name="Patty O'Brien" -airport=ORD -firmware=nekotos-bonobo.decb
+        ./tether -handle=PAT -name="Patty" -airport=ORD
+
+        (Note bug: keep -name short, 8 chars or less)
 
     You can wrap it in a "while loop" if you like:
 
-        while sleep 1 ; do ./tether -handle=PAT -name="Patty O'Brien" -airport=ORD -firmware=_kernel.decb ; done
+        while sleep 1 ; do ./tether -handle=PAT -name="Patty" -airport=ORD ; done
+
     but it will take more than one ^C to kill it.
 
     To see other configurable flags, run `./tether -help`.
