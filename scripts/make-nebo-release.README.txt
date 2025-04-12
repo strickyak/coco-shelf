@@ -1,5 +1,5 @@
 nekotos-bonobo-quick-release (nebo) README
-----------------------------------------
+----------------------------------------------------
 
 Tested on coco hardware:
   * coco2 (16K, 6809) with either CocoIOr or Bonobo
@@ -12,7 +12,7 @@ Just boot with CocoIOr Axiom, go to page 39, and launch with "@".)
 This release is compiled for Ubuntu 24.04 x86_64 GNU/Linux,
 but this probably works with almost any x86_64 linux
 in the last few years.  The Linux binaries are statically
-compiled, to maximum the chance of success.
+linked, to maximum the chance of success.
 
 *  Unzip the archive.
 
@@ -49,27 +49,43 @@ STEPS TO RUN:
 
 3.  In one shell, run this command:
 
-        ./mcp-bonobo-only --games_dir=.
+        ./mcp-bonobo-only -games_dir=.
 
     If your .games files are in a different directory,
     name the path to it, instead of the final dot.
 
-    You can add a flag for the time zone of the
+    You can add a flag for the default time zone of the
     clock game ( choose a slashed-location from this list
-    https://data.iana.org/time-zones/tzdb-2021a/zone1970.tab )
+    https://data.iana.org/time-zones/tzdb-2021a/zone1970.tab ).
+    Most users will override this by specifying a nearby airport
+    on the tether command.
     
-        ./mcp-bonobo-only --games_dir=. --zone=America/St_Johns
+        ./mcp-bonobo-only -games_dir=. -zone=America/St_Johns
 
-    (To see configurable flags, run `./mcp-bonobo-only --help`).
+    (To see configurable flags, run `./mcp-bonobo-only -help`).
 
-4.  In another shell, run ./tether
-    (To see configurable flags, run `./tether --help`).
+    Instead of mcp-bonobo-only, you may also run lemma-waiter
+    from the frobio package.  Configure it with the same flags
+    as mcp-bonobo-only.
+
+4.  In another shell, run ./tether:
+    To see configurable flags, run `./tether -help`.
+
+        ./tether -handle=PAT -name="Patty O'Brien" -airport=ORD -firmware=nekotos-bonobo.decb
 
     You can wrap it in a "while loop" if you like:
 
-        while sleep 1 ; do ./tether ; done
-
+        while sleep 1 ; do ./tether -handle=PAT -name="Patty O'Brien" -airport=ORD -firmware=_kernel.decb ; done
     but it will take more than one ^C to kill it.
+
+    To see other configurable flags, run `./tether -help`.
+    If the Bonobo's Pi Pico does not show up as /dev/ttyACM0,
+    configure it with a different device name like
+        -wire=/dev/ttyACM1
+
+    If the MCP is running on a different machine (say a server
+    at a conference, or the global server), configure it like this:
+        -mcp=pizga.net:2321
 
 5.  Turn on your Coco3 on.
     If the screen is weird, reset it once.
@@ -80,19 +96,37 @@ STEPS TO RUN:
     0   stop running a game
     L   conway's Life
     C   clock
-    R   bogus demo saying Red    (chains to Green)
-    G   bogus demo saying Green  (chains to Blue)
-    B   bogus demo saying Blue   (chains to Red)
-    4   very incomplete Forth interpreter, but you can try `23 42 * .` 
-    S   spacewar (kinda broken, not fixed)
+    R   bogus demo saying Red    (chains to Green & Blue)
+    F   very incomplete Forth interpreter, but you can try `23 42 * .` 
+    S   spacewar  (multi-player game)
+    G   cow-glider  (multi-player game, sort of)
 
-    Hit BREAK to background a game, and BREAK to foreground it.
-    (while it is backgrounded, you can use the 0 command to kill it.)
+    /J n    Join a room, for 40 <= n <= 99.
+    /J      Leave the room.
+    /W      Who is connected, and what Room they are in.
+
+    To play a multiplayer game, the first person joins a room
+    numbered 40 to 99.  Then other players join the room.
+    Then the first player launches a game (like `S` or `G`).
+    Also to play multiplayer games, you must all be using
+    the same MCP server (mcp-bonobo-only or lemma-waiter).
+
+    Hit BREAK to background the game, and BREAK to foreground it.
+    (while it is backgrounded, you can use the 0 command to kill it,
+    launch other games, or chat with people).
+
+    If you type something other than the above commands,
+    then you can chat with everyone.  Everyone sees everything
+    everyone else types, both commands and just chats.
 
 7.  If the ./tether command exits, run it again,
     and do the following step, too.
 
-8.  If the LED on the Pi Pico blinks in Threes,
+8.  If the LED blinks rapidly (10Hz), it's waiting for its Coco
+    to be powered up or reset.  In the meantime,
+    the Coco is HALTed, so it will appear frozen.
+
+    If the LED on the Pi Pico blinks in Threes,
     that means it hit a fatal error.  Unplug the USB for 5 seconds
     and plug it back in.
        (now the LED flashes rapidly (10Hz) -- that means
@@ -103,10 +137,17 @@ STEPS TO RUN:
 
 KNOWN BUGS:
 
-    * When using CocoIOr instead of Bonobo, the red/green/blue
-      games do not chain.  Instead, they crash.
+    If you are not the first person in the room,
+    and you try to launch a game, the MCP will crash,
+    and everything else will freeze.   Reset all
+    machines, and restart the MCP.
 
-    * No multiplayer Chat or Games or APIs are available yet.
+    There is a memory corruption flake that strikes
+    randomly and usually causes a PANIC, but can
+    cause bad crashes with scary weird screens.
+
+    The beaten path works pretty well, but trying
+    weird stuff will find bugs.
 
 REPOS:
 
