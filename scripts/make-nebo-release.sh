@@ -30,12 +30,12 @@ cp -afv nekotos/build-* "$D/debug-files"
 C=nekotos/build-for-16k-cocoio/
 HASH=$(cat $C/_kernel.decb.hash)
 mkdir "$D/cocoio-serving"
-cp bin/lemma-waiter  "$D/cocoio-serving/"
+cp build-frobio/lemma-waiter  "$D/cocoio-serving/"
 mkdir "$D/cocoio-serving/LEMMINGS"
 cp -fv $C/_kernel.decb "$D/cocoio-serving/LEMMINGS/test98.lem"
 cp -fv $C/_kernel.decb "$D/cocoio-serving/LEMMINGS/nekotos-cocoio.lem"
 mkdir "$D/cocoio-serving/GAMES"
-for g in $C/*.game $N/*.game
+for g in $C/*.game
 do
     b=$(basename $g .game)
     cp -fv  $g  "$D/cocoio-serving/GAMES/$b.$HASH.game"
