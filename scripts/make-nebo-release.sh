@@ -12,7 +12,7 @@ HASH=$(cat $N/_kernel.decb.hash)
 mkdir "$D"
 cp -fv scripts/make-nebo-release.README.txt "$D/README.txt"
 cp -fv lib/bonobo.uf2      "$D"
-cp -fv bin/tether          "$D"
+cp -fv bin/tether.*.exe    "$D"
 cp -fv bin/mcp-bonobo-only "$D"
 
 for g in $N/*.game

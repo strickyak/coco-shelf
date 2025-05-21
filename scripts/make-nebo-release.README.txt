@@ -9,10 +9,34 @@ Tested on coco hardware:
 If you use the CocoIOr card, you don't need this;
 Just boot with CocoIOr Axiom, go to page 39, and launch with "@".)
 
-This release is compiled for Ubuntu 24.04 x86_64 GNU/Linux,
-but this probably works with almost any x86_64 linux
-in the last few years.  The Linux binaries are statically
-linked, to maximum the chance of success.
+This release contains 8 different compilations of the
+same `tether` program, which runs on your PC (or Mac or Pi
+or Linux).  Used the one correct program for your
+operating system.  Below, we will just call it "tether".
+
+    tether.linux-amd64.exe
+        For most 64-bit Linux systems on Intel CPU.
+
+    tether.linux-386.exe
+        For older 32-bit Linux systems on Intel CPU.
+
+    tether.linux-arm64.exe
+        For Raspbery Pi with 64-bit OS.
+
+    tether.linux-arm-7.exe
+        For Raspbery Pi with 32-bit OS.
+
+    tether.mac-amd64.exe
+        For older MacOS with Intel CPU.
+
+    tether.mac-arm64.exe
+        For newer MacOS with Apple Silicon (M1, M2, M3, M4...)
+
+    tether.win-386.exe
+        For 32-bit Windows on Intel CPU
+
+    tether.win-amd64.exe
+        For 64-bit Windows on Intel CPU
 
 *  Unzip the archive.
 
@@ -20,9 +44,14 @@ linked, to maximum the chance of success.
     
    1. bonobo.uf2   (a compiled C program for Raspberry Pi Pico 1)
 
-   2. tether            (an x86_64 Linux static binary)
+   2. tether
 
    3. mcp-bonobo-only   (an x86_64 Linux static binary)
+
+See the list of different tether programs for different
+PC Operating Systems above.  When we say "tether",
+use the correct one.  Or copy the correct one to the
+name "tether".
 
 *  Plus the *.game files are needed.
 
@@ -38,38 +67,37 @@ STEPS TO RUN:
     "bonobo.uf2" file:
 
     Disconnect the USB cable for 5 seconds.
+
     Plug the USB into your Linux box.
+
     Wait 5 seconds.
+
     Type "df" and look for the final /media/ mount path,
        like /media/strick/RPI-RP2/
+
     Copy bonobo.uf2 into that mount:
        cp -vf bonobo.uf2 /media/strick/RPI-RP2/
 
     Leave the USB cable plugged in.
 
 3.  In one shell, run this command:
+    (To see configurable flags, run `./mcp-bonobo-only -help`).
 
         ./mcp-bonobo-only -games_dir=.
 
     If your .games files are in a different directory,
     name the path to it, instead of the final dot.
 
-    You can add a flag for the default time zone of the
-    clock game ( choose a slashed-location from this list
-    https://data.iana.org/time-zones/tzdb-2021a/zone1970.tab ).
-    Most users will override this by specifying a nearby airport
-    on the tether command.
-    
-        ./mcp-bonobo-only -games_dir=. -zone=America/St_Johns
+    (You don't really have to run this.  Instead,
+    on the tether command (below), specify the global
+    public MCP with `-mcp=pizga.net:2321`.)
 
-    (To see configurable flags, run `./mcp-bonobo-only -help`).
-
-    Instead of mcp-bonobo-only, you may also run lemma-waiter
+    (Instead of mcp-bonobo-only, you may also run lemma-waiter
     from the frobio package.  Configure it with the same flags
-    as mcp-bonobo-only.
+    as mcp-bonobo-only.)
 
 4.  In another shell, run ./tether:
-    To see configurable flags, run `./tether -help`.
+    (To see configurable flags, run `./tether -help`.)
 
         ./tether -handle=PAT -name="Patty" -airport=ORD
 
@@ -85,6 +113,11 @@ STEPS TO RUN:
     If the Bonobo's Pi Pico does not show up as /dev/ttyACM0,
     configure it with a different device name like
         -wire=/dev/ttyACM1
+
+    On windows, the device name will be something like COM8.
+    There is a device manager in the Settings that can help
+    you figure out what the device name is.  It is Okay to
+    use trial and error.
 
     If the MCP is running on a different machine (say a server
     at a conference, or the global server), configure it like this:
@@ -103,6 +136,7 @@ STEPS TO RUN:
     F   very incomplete Forth interpreter, but you can try `23 42 * .` 
     S   spacewar  (multi-player game)
     G   cow-glider  (multi-player game, sort of)
+    /R MUSIC     Run the MUSIC demo.
 
     /J n    Join a room, for 40 <= n <= 99.
     /J      Leave the room.
@@ -148,6 +182,9 @@ KNOWN BUGS:
     There is a memory corruption flake that strikes
     randomly and usually causes a PANIC, but can
     cause bad crashes with scary weird screens.
+
+    Unknown commands beginning with "/" crash
+    the server.
 
     The beaten path works pretty well, but trying
     weird stuff will find bugs.
