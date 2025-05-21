@@ -41,7 +41,7 @@ COCO_BONOBO_REPO:=$(REPO_PREFIX)strickyak/copico-bonobo$(REPO_SUFFIX)
 COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
-COCO_LWTOOLS_VERSION:=lwtools-4.23
+COCO_LWTOOLS_VERSION:=lwtools-4.24
 COCO_CMOC_VERSION:=cmoc-0.1.90
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
 COCO_PICOSDK_VERSION:=pico-sdk-2.1.1-thin
