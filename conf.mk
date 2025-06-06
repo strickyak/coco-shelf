@@ -31,7 +31,7 @@ endif
 
 # Configure the origins of the gits.
 COCO_FOENIXMGR_REPO:=$(REPO_PREFIX)pweingar/FoenixMgr$(REPO_SUFFIX)
-COCO_TOOLSHED_REPO:=$(REPO_PREFIX)strickyak/forked-toolshed$(REPO_SUFFIX)
+COCO_TOOLSHED_REPO:=$(REPO_PREFIX)nitros9project/toolshed$(REPO_SUFFIX)
 COCO_NITROS9_REPO:=$(REPO_PREFIX)nitros9project/nitros9$(REPO_SUFFIX)
 COCO_FROBIO_REPO:=$(REPO_PREFIX)strickyak/frobio$(REPO_SUFFIX)
 COCO_GOMAR_REPO:=$(REPO_PREFIX)strickyak/gomar$(REPO_SUFFIX)
@@ -42,7 +42,7 @@ COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
 COCO_LWTOOLS_VERSION:=lwtools-4.24
-COCO_CMOC_VERSION:=cmoc-0.1.90
+COCO_CMOC_VERSION:=cmoc-0.1.91
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
 COCO_PICOSDK_VERSION:=pico-sdk-2.1.1-thin
 COCO_PICOTOOL_VERSION:=picotool-2.1.1-thin
@@ -74,10 +74,13 @@ EOU_101_M6809_URL:='$(PIZGA_MIRROR_URL)/eou-101-m6809.zip'
 
 else
 
-# OBTW # http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html (since Google doesn't know it)
+# CMOC: Permalink # http://sarrazip.com/dev/cmoc.html
+# CMOC: OBTW # http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html (since Google doesn't know it)
 COCO_CMOC_URL:="http://gvlsywt.cluster051.hosting.ovh.net/dev/$(COCO_CMOC_TARBALL)"
+
 COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
-COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
+# too slow # COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
+COCO_GCCRETRO_URL:="http://pizga.net/inputs/$(COCO_GCCRETRO_TARBALL)"
 
 COCO_PICOSDK_URL:="http://pizga.net/inputs/$(COCO_PICOSDK_TARBALL)"
 COCO_PICOTOOL_URL:="http://pizga.net/inputs/$(COCO_PICOTOOL_TARBALL)"
