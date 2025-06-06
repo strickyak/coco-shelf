@@ -286,7 +286,8 @@ all-inputs:  \
 
 inputs/gcc-config-guess:
 	mkdir -p inputs
-	set -x; test -s $@ || curl 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' > $@
+	# set -x; test -s $@ || curl 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' > $@
+	set -x; test -s $@ || curl 'http://pizga.net/inputs/gcc-config-guess' > $@
 	expr 33333 '<' $$( wc -c < $@ ) || ( mv $@ $@.BAD ; exit 13 )
 inputs/$(COCO_LWTOOLS_TARBALL):
 	mkdir -p inputs
