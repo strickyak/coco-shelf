@@ -7,7 +7,8 @@ P:=$(shell echo $$PATH)
 export SHELF:=$S
 export SHELL:=/bin/bash   # Putting this 1st seems to make PATH work.
 export PATH:=$S/bin:$P    # Add coco-shelf/bin at front of PATH.
-#??# export HOME:=$S
+
+PIZGA_MIRROR_URL:=http://pizga.net/inputs
 
 # You have some options, how to clone repositories from github.
 # If you append "ANON=1" to the end of your "make" line,
@@ -54,18 +55,21 @@ COCO_GCCRETRO_TARBALL=$(COCO_GCCRETRO_VERSION).tar.bz2
 COCO_PICOSDK_TARBALL=$(COCO_PICOSDK_VERSION).tar.gz
 COCO_PICOTOOL_TARBALL=$(COCO_PICOTOOL_VERSION).tar.gz
 
+##################################################################################
+
 # URLS for the tarballs.
+
+# Always use MIRROR for these:
+COCO_PICOSDK_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOSDK_TARBALL)'
+COCO_PICOTOOL_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOTOOL_TARBALL)'
+# ftp.gnu.org was way too slow.
+COCO_GCCRETRO_URL:='$(PIZGA_MIRROR_URL)/$(COCO_GCCRETRO_TARBALL)'
 
 ifdef MIRROR
 
-PIZGA_MIRROR_URL:=http://pizga.net/inputs
-
+# MIRROR version:
 COCO_CMOC_URL:='$(PIZGA_MIRROR_URL)/$(COCO_CMOC_TARBALL)'
 COCO_LWTOOLS_URL:='$(PIZGA_MIRROR_URL)/$(COCO_LWTOOLS_TARBALL)'
-COCO_GCCRETRO_URL:='$(PIZGA_MIRROR_URL)/$(COCO_GCCRETRO_TARBALL)'
-
-COCO_PICOSDK_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOSDK_TARBALL)'
-COCO_PICOTOOL_URL:='$(PIZGA_MIRROR_URL)/$(COCO_PICOTOOL_TARBALL)'
 
 EOU_H6309_URL:='$(PIZGA_MIRROR_URL)/eou-h6309.zip'
 EOU_M6809_URL:='$(PIZGA_MIRROR_URL)/eou-m6809.zip'
@@ -74,16 +78,13 @@ EOU_101_M6809_URL:='$(PIZGA_MIRROR_URL)/eou-101-m6809.zip'
 
 else
 
+# Non-MIRROR version:
+
 # CMOC: Permalink # http://sarrazip.com/dev/cmoc.html
 # CMOC: OBTW # http://gvlsywt.cluster051.hosting.ovh.net/dev/cmoc.html (since Google doesn't know it)
 COCO_CMOC_URL:="http://gvlsywt.cluster051.hosting.ovh.net/dev/$(COCO_CMOC_TARBALL)"
 
 COCO_LWTOOLS_URL:="http://www.lwtools.ca/releases/lwtools/$(COCO_LWTOOLS_TARBALL)"
-# too slow # COCO_GCCRETRO_URL:="https://ftp.gnu.org/gnu/gcc/$(COCO_GCCRETRO_VERSION)/$(COCO_GCCRETRO_TARBALL)"
-COCO_GCCRETRO_URL:="http://pizga.net/inputs/$(COCO_GCCRETRO_TARBALL)"
-
-COCO_PICOSDK_URL:="http://pizga.net/inputs/$(COCO_PICOSDK_TARBALL)"
-COCO_PICOTOOL_URL:="http://pizga.net/inputs/$(COCO_PICOTOOL_TARBALL)"
 
 EOU_H6309_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6309_ONLY)_12-02-2022.zip'
 EOU_M6809_URL:='http://www.lcurtisboyle.com/nitros9/EOU_Version%201_0_0_(6809_ONLY)_12-02-2022.zip'
