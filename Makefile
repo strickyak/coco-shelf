@@ -275,6 +275,10 @@ tfr9.got:
 turbos.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_TURBOS_REPO) $$B
 	date > $@
+godo-client.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_GODOCLIENT_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 
 ############################################################################
 
