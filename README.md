@@ -37,7 +37,7 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt -y update < /dev/null
 sudo apt -y upgrade < /dev/null
 sudo apt -y install gcc make flex bison gdb build-essential
-sudo apt -y install git golang zip curl python3-serial
+sudo apt -y install git golang zip curl python3-serial tcl
 sudo apt -y install libgmp-dev libmpfr-dev libmpc-dev libfuse-dev
 sudo apt -y install cmake gcc-arm-none-eabi libusb-1.0-0-dev pkg-config
 
