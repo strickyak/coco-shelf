@@ -104,7 +104,7 @@ tfr9.done: tfr9.got lwtools.done nitros9.done turbos.done pico-sdk.got
 	date > "$@"
 
 turbos.done: turbos.got tfr9.got lwtools.done
-	make -C turbos/ports/turbo9sim
+	make -C turbos/ports/turbo9sim TURBOSDIR=$S/turbos
 	date > "$@"
 
 copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekotos.done
