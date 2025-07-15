@@ -27,14 +27,6 @@ all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done
 go.work: _FORCE_
 	$(CREATE_GO_WORK)
 
-
-#??# # EXPERIMENTAL (
-#??# GO_EASY = sh $S/scripts/go-easy.sh
-#??# tether:
-#??# 	cd copico-bonobo/v2.4/tether && $(GO_EASY) install -x tether.go
-#??# # EXPERIMENTAL )
-
-
 ########
 ##
 ##    run-*   targets
@@ -106,6 +98,14 @@ picotool.got: inputs/$(COCO_PICOTOOL_TARBALL)
 	date > "$@"
 
 ############################################################################
+
+tfr9.done: tfr9.got lwtools.done nitros9.done turbos.done pico-sdk.got
+	make -C tfr9/v3
+	date > "$@"
+
+turbos.done: turbos.got tfr9.got lwtools.done
+	make -C turbos/ports/turbo9sim
+	date > "$@"
 
 copico-bonobo.done: copico-bonobo.got picotool.done pico-sdk.got nekotos.done
 	make -C copico-bonobo/v2.4/tether all install
@@ -268,6 +268,13 @@ copico-bonobo.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_BONOBO_REPO) $$B
 	$(CREATE_GO_WORK)
 	date > $@
+tfr9.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_TFR9_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
+turbos.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_TURBOS_REPO) $$B
+	date > $@
 
 ############################################################################
 
@@ -336,6 +343,7 @@ clean-shelf:
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
 	rm -rf nekotos copico-bonobo pico-sdk picotool
+	rm -rf tfr9 turbos
 	##
 
 _FORCE_:

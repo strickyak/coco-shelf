@@ -40,6 +40,8 @@ COCO_WHIPPETS_REPO:=$(REPO_PREFIX)strickyak/whippets$(REPO_SUFFIX)
 COCO_NEKOT_REPO:=$(REPO_PREFIX)strickyak/nekotos$(REPO_SUFFIX)
 COCO_BONOBO_REPO:=$(REPO_PREFIX)strickyak/copico-bonobo$(REPO_SUFFIX)
 COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
+COCO_TFR9_REPO:=$(REPO_PREFIX)strickyak/tfr9$(REPO_SUFFIX)
+COCO_TURBOS_REPO:=$(REPO_PREFIX)boisy/turbos$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
 COCO_LWTOOLS_VERSION:=lwtools-4.24
