@@ -45,7 +45,7 @@ COCO_TURBOS_REPO:=$(REPO_PREFIX)boisy/turbos$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
 COCO_LWTOOLS_VERSION:=lwtools-4.24
-COCO_CMOC_VERSION:=cmoc-0.1.91
+COCO_CMOC_VERSION:=cmoc-0.1.97
 COCO_GCCRETRO_VERSION:=gcc-4.6.4
 COCO_PICOSDK_VERSION:=pico-sdk-2.1.1-thin
 COCO_PICOTOOL_VERSION:=picotool-2.1.1-thin
