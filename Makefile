@@ -176,8 +176,8 @@ nitros9.done: nitros9.got toolshed.done lwtools.done
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=coco3 dsk
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=coco3_6309 dsk
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=f256 dsk
-	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 -C level1/f256/feu
 	date > nitros9.done
+	#NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 -C level1/f256/feu
 
 lwtools.done: lwtools.got
 	make -C lwtools PREFIX="$(SHELF)" all
