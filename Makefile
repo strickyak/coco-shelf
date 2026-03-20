@@ -12,7 +12,7 @@ include conf.mk
 # Keeping go.work up-to-date really makes golang happy.
 CREATE_GO_WORK = set -x; \
     rm -f go.work && \
-    go work init $$( find [a-z]*/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && \
+    go work init $$( find ./[a-z]*[a-z0-9]/ -name go.mod | grep -v /go/ | grep -v /pkg/ | sed 's;/go.mod;;') && \
     cat -n go.work && \
     mkdir -p bin && \
     true
@@ -237,6 +237,12 @@ all-gits: \
   frobio.got \
   nekotos.got \
   copico-bonobo.got \
+  copico-centipede.got \
+  borges-saver.got \
+  collatz.got \
+  fujinet-apps.got  fujinet-config.got  fujinet-firmware.got  fujinet-hardware.got  \
+  fujinet-lib.got  fujinet-pc.got  fujinet-platformio.got  spectranet.got   \
+  atari800.got \
   ##
 
 FoenixMgr.got:
@@ -268,6 +274,10 @@ copico-bonobo.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_BONOBO_REPO) $$B
 	$(CREATE_GO_WORK)
 	date > $@
+copico-centipede.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_CENTIPEDE_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
 tfr9.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_TFR9_REPO) $$B
 	$(CREATE_GO_WORK)
@@ -279,6 +289,45 @@ godo-client.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_GODOCLIENT_REPO) $$B
 	$(CREATE_GO_WORK)
 	date > $@
+borges-saver.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_BORGES_SAVER_REPO) $$B
+	$(CREATE_GO_WORK)
+	date > $@
+collatz.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_COLLATZ_REPO) $$B
+	date > $@
+gcc6809pic.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_GCC6809PIC_REPO) $$B
+	date > $@
+
+fujinet-apps.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_APPS_REPO) $$B
+	date > $@
+fujinet-config.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_CONFIG_REPO) $$B
+	date > $@
+fujinet-firmware.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_FIRMWARE_REPO) $$B
+	date > $@
+fujinet-hardware.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_HARDWARE_REPO) $$B
+	date > $@
+fujinet-lib.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_LIB_REPO) $$B
+	date > $@
+fujinet-pc.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_PC_REPO) $$B
+	date > $@
+fujinet-platformio.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_PLATFORMIO_REPO) $$B
+	date > $@
+spectranet.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_SPECTRANET_REPO) $$B
+	date > $@
+atari800.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_ATARI800_REPO) $$B
+	date > $@
+
 
 ############################################################################
 

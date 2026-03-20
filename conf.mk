@@ -42,6 +42,21 @@ COCO_BONOBO_REPO:=$(REPO_PREFIX)strickyak/copico-bonobo$(REPO_SUFFIX)
 COCO_GODOCLIENT_REPO:=$(REPO_PREFIX)strickyak/godo-client$(REPO_SUFFIX)
 COCO_TFR9_REPO:=$(REPO_PREFIX)strickyak/tfr9$(REPO_SUFFIX)
 COCO_TURBOS_REPO:=$(REPO_PREFIX)boisy/turbos$(REPO_SUFFIX)
+COCO_BORGES_SAVER_REPO:=$(REPO_PREFIX)strickyak/borges-saver$(REPO_SUFFIX)
+COCO_COLLATZ_REPO:=$(REPO_PREFIX)strickyak/collatz$(REPO_SUFFIX)
+COCO_GCC6809PIC_REPO:=$(REPO_PREFIX)strickyak/gcc6809pic$(REPO_SUFFIX)
+
+# Fujinet Github Section
+# fujinet-apps  fujinet-config  fujinet-firmware  fujinet-hardware  fujinet-lib  fujinet-pc  fujinet-platformio  spectranet
+FUJINET_APPS_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-apps$(REPO_SUFFIX)
+FUJINET_CONFIG_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-config$(REPO_SUFFIX)
+FUJINET_FIRMWARE_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-firmware$(REPO_SUFFIX)
+FUJINET_HARDWARE_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-hardware$(REPO_SUFFIX)
+FUJINET_LIB_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-lib$(REPO_SUFFIX)
+FUJINET_PC_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-pc$(REPO_SUFFIX)
+FUJINET_PLATFORMIO_REPO:=$(REPO_PREFIX)FujiNetWIFI/fujinet-platformio$(REPO_SUFFIX)
+FUJINET_SPECTRANET_REPO:=$(REPO_PREFIX)FujiNetWIFI/spectranet$(REPO_SUFFIX)
+FUJINET_ATARI800_REPO:=$(REPO_PREFIX)atari800/atari800$(REPO_SUFFIX)
 
 # Configure the versions of the tarballs.
 COCO_LWTOOLS_VERSION:=lwtools-4.24
