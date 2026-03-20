@@ -1,0 +1,51 @@
+ 2067  cd fujinet-firmware/
+ 2068  ./build.sh -p ATARI 
+ 2069  cd build/dist/
+ 2070  ./run-fujinet 
+ 2071  cd /c/
+ 2072  vs conf.mk Makefile 
+ 2073  du frobio
+ 2074  du nekotos
+ 2075  make atari800.got 
+ 2076  cd atari800/
+ 2077  ll
+ 2078  m README.TXT 
+ 2079  m DOC/README
+ 2080  m DOC/INSTALL
+ 2081  m DOC/USAGE 
+ 2082  ff /tmp/fujinet-ATARI-8mb-v1.5.2/
+ 2083  cd /c/atari/bin/
+ 2084  ./atari800 -xl -netsio -win-width 1024 -win-height 768
+ 2085  ff ..
+ 2086  m ../share/doc/atari800/USAGE
+ 2087  ./atari800 -xl -netsio -win-width 1024 -win-height 768
+
+
+
+ 2025  ll
+ 2026  cd fujinet-firmware-1.5.2/
+ 2027  ll
+ 2028  cd /c/atari800/
+ 2029  ll
+ 2030  ./autogen.sh
+ 2031  ./configure --help
+ 2032  ./configure --prefix=/c/atari --enable-netsio --enable-riodevice --enable-rnetwork --with-x
+ 2033  make
+ 2034  make -n install
+ 2035  make install
+ 2036  ff /c/atari/bin
+ 2037  ff /c/atari/
+ 2038  m /c/atari/share/doc/atari800/USAGE
+ 2039  ff ../ | g fujinet-pc
+ 2040  ff ../ | g fujinet-pc$
+ 2041  hhh
+ 2042  ..
+ 2043  cd fujinet-pc/
+ 2044  ll
+ 2045  m README.md
+ 2046  ..
+ 2047  cd fujinet-firmware/build/dist/
+ 2048  ll
+ 2049  n run-fujinet
+ 2050  ./run-fujinet
+
