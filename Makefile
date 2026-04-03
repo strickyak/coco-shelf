@@ -37,11 +37,11 @@ run-lemma: frobio.done
 f256-flash: run-f256jr-flash
 	: "f256-flash" is the old target name.  "run-f256-flash" is the new target name.
 run-f256-flash: FoenixMgr.done
-	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash
+	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/wildbits/feu flash
 run-f256jr-flash: FoenixMgr.done
-	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash_f256jr
+	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/wildbits/feu flash_f256jr
 run-f256k-flash: FoenixMgr.done
-	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/f256/feu flash_f256k
+	NITROS9DIR=`pwd`/nitros9 make -C nitros9/level1/wildbits/feu flash_f256k
 
 ############################################################################
 
@@ -175,9 +175,9 @@ nitros9.done: nitros9.got toolshed.done lwtools.done
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=coco1_6309 dsk
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=coco3 dsk
 	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=coco3_6309 dsk
-	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=f256 dsk
+	NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 PORTS=wildbits dsk
 	date > nitros9.done
-	#NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 -C level1/f256/feu
+	#NITROS9DIR=$(SHELF)/nitros9 make -C nitros9 -C level1/wildbits/feu
 
 lwtools.done: lwtools.got
 	make -C lwtools PREFIX="$(SHELF)" all
