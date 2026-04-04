@@ -1,0 +1,20 @@
+--- a/gcc/cfglayout.c	2010-12-06 14:28:09.000000000 -0500
++++ b/gcc/cfglayout.c	2026-04-03 11:28:44.542910093 -0400
+@@ -1,3 +1,5 @@
++extern int prologue_epilogue_required(void); // YAK
++
+ /* Basic block reordering routines for the GNU compiler.
+    Copyright (C) 2000, 2001, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
+    Free Software Foundation, Inc.
+--- a/gcc/config/m6809/m6809.c	2026-04-04 00:00:08.706419884 -0400
++++ b/gcc/config/m6809/m6809.c	2026-04-03 12:05:49.637919963 -0400
+@@ -75,6 +75,9 @@
+ #include "df.h"
+ #include "rtlhooks-def.h"
+ 
++#include "langhooks.h" // YAK for add_builtin_function()
++extern int fputs_unlocked (const char *, FILE *); // YAK
++
+ /* macro to return TRUE if length of operand mode is one byte */
+ #define BYTE_MODE(X) ((GET_MODE_SIZE (GET_MODE (X))) == 1)
+ 
