@@ -78,7 +78,8 @@ cmoc.got: inputs/$(COCO_CMOC_TARBALL)
 gccretro.got: inputs/$(COCO_GCCRETRO_TARBALL) lwtools.done inputs/gcc-config-guess
 	set -x; test -d gccretro || { tar -xjf inputs/$(COCO_GCCRETRO_TARBALL) && mv -v $(COCO_GCCRETRO_VERSION) gccretro && \
 	      (cd gccretro && patch -p1 < ../lwtools/extra/gcc6809lw-4.6.4-9.patch) && \
-	      (cd gccretro && patch -p1 < ../patches/hasty-gccretro-1.patch}
+	      (cd gccretro && patch -p1 < ../patches/hasty-gccretro-1.patch) ; \
+	}
 	mkdir -p bin
 	cp -fv inputs/gcc-config-guess "gccretro/config.guess"
 	cp -fv inputs/gcc-config-guess "gccretro/libjava/libltdl/config.guess"
