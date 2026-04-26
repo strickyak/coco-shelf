@@ -5,8 +5,10 @@
 S:=$(shell pwd)
 P:=$(shell echo $$PATH)
 export SHELF:=$S
-export SHELL:=/bin/bash   # Putting this 1st seems to make PATH work.
-export PATH:=$S/bin:$P    # Add coco-shelf/bin at front of PATH.
+# Putting this 1st seems to make PATH work.
+export SHELL:=/bin/bash
+# Add coco-shelf/bin at front of PATH.
+export PATH:=$S/bin:$P
 
 PIZGA_MIRROR_URL:=http://pizga.net/inputs
 
