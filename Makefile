@@ -22,7 +22,7 @@ CREATE_GO_WORK = set -x; \
 
 PICO_ENV = PICO_EXAMPLES_PATH=/dev/null PICO_SDK_PATH=$S/pico-sdk
 
-all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done
+all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done cmoc_os9.done
 
 go.work: _FORCE_
 	$(CREATE_GO_WORK)
