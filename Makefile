@@ -22,7 +22,7 @@ CREATE_GO_WORK = set -x; \
 
 PICO_ENV = PICO_EXAMPLES_PATH=/dev/null PICO_SDK_PATH=$S/pico-sdk
 
-all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done
+all: all-fetches frobio.done FoenixMgr.done whippets.done copico-bonobo.done cmoc_os9.done
 
 go.work: _FORCE_
 	$(CREATE_GO_WORK)
@@ -197,6 +197,10 @@ cmoc.done: cmoc.got lwtools.done
 	make -C cmoc PREFIX="$(SHELF)" install
 	date > cmoc.done
 
+cmoc_os9.done: cmoc_os9.got cmoc.done lwtools.done
+	make -C cmoc_os9 libs
+	date > cmoc_os9.done
+
 gccretro.done: gccretro.got lwtools.done
 	echo PATH -- $$PATH -- PATH
 	which makeinfo
@@ -245,6 +249,7 @@ all-gits: \
   fujinet-apps.got  fujinet-config.got  fujinet-firmware.got  fujinet-hardware.got  \
   fujinet-lib.got  fujinet-pc.got  fujinet-platformio.got  spectranet.got   \
   atari800.got \
+  cmoc_os9.got \
   ##
 
 FoenixMgr.got:
@@ -329,6 +334,9 @@ spectranet.got:
 atari800.got:
 	B=$(basename $@); set -x; test -d $$B || git clone $(FUJINET_ATARI800_REPO) $$B
 	date > $@
+cmoc_os9.got:
+	B=$(basename $@); set -x; test -d $$B || git clone $(COCO_CMOC_OS9_REPO) $$B
+	date > $@
 
 
 ############################################################################
@@ -398,7 +406,7 @@ clean-shelf:
 	rm -rf cmoc frobio gccretro lwtools m6809-unknown nitros9 toolshed FoenixMgr
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
 	rm -rf nekotos copico-bonobo pico-sdk picotool
-	rm -rf tfr9 turbos
+	rm -rf tfr9 turbos cmoc_os9
 	##
 
 _FORCE_:
