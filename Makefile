@@ -407,7 +407,7 @@ clean-shelf:
 	rm -rf eou-*h6309 eou-*m6809 gomar whippets
 	rm -rf nekotos copico-bonobo pico-sdk picotool
 	rm -rf tfr9 turbos cmoc_os9
-	rm -rf .config/ copico-centipede/ fujinet-* spectranet/ collatz/ borges-saver/ atari800/
+	rm -rf .config copico-centipede fujinet-* spectranet collatz borges-saver atari800
 	##
 
 _FORCE_:
